@@ -1,0 +1,106 @@
+http://stackoverflow.com/a/22910356
+
+Wkhtmltopdf installation
+http://stackoverflow.com/a/9685072
+
+two different pdf
+IIT and JEE
+alter table for user-id
+
+
+Bind query
+http://stackoverflow.com/a/18753263
+
+
+
+/*Array
+(
+    [id] => 6
+    [subject_id] => 2
+    [exam_type] => IIT
+    [complexity] => Simple
+    [question_type] => text
+    [question] => The candidates, who are preparing for the engineering entrance exam of JEE Main and JEE advanced, should solve the AIEEE past year papers and IIT JEE past year papers. In order to understand the nature and type and the format of questions that are asked in JEE Main and JEE Advanced exams, a student needs to solve and then refer to the solutions at the end of the paper.
+    [option_a_type] => text
+    [option_a] =>
+    [option_b_type] => text
+    [option_b] =>
+    [option_c_type] => text
+    [option_c] =>
+    [option_d_type] => text
+    [option_d] =>
+    [answer] => A
+    [comments] =>
+    [created_at] => 2017-02-03 21:47:20
+    [updated_at] => 2017-02-03 21:47:20
+)*/
+
+
+    /**
+     * Insert registration entry to database
+     *
+     * @author Vijay <vk@lbit.in>
+     *
+     * @param  array $post array with the email,name,description to insert
+     * @return boolean
+     */
+    function insert_registration($post)
+    {
+        $email = $this->escapeString(trim($post['email']));
+        $name = $this->escapeString(trim($post['name']));
+        $website = $this->escapeString(trim($post['website']));
+        $description = $this->escapeString(trim($post['description']));
+        $x_real_ip = empty($_SERVER['HTTP_X_REAL_IP']) ? '' : $this->validate_ip($_SERVER['HTTP_X_REAL_IP']);
+        $client_ip = empty($_SERVER['HTTP_CLIENT_IP']) ? '' : $this->validate_ip($_SERVER['HTTP_CLIENT_IP']);
+        $x_forwarded_for = empty($_SERVER['HTTP_X_FORWARDED_FOR']) ? : $this->validate_ip($_SERVER['HTTP_X_FORWARDED_FOR']);
+        $remote_addr = empty($_SERVER['REMOTE_ADDR']) ? '' : $this->validate_ip($_SERVER['REMOTE_ADDR']);
+
+        $query = "INSERT INTO emails (email,name,description,website, http_x_real_ip, http_client_ip, http_x_forwarded_for, remote_addr) VALUES ( ?,?,?,?,?,?,?,? )";
+        $statement = $this->conn->prepare($query);
+
+        $statement->bind_param('ssssssss', $email, $name, $description, $website, $x_real_ip, $client_ip, $x_forwarded_for, $remote_addr);
+
+        if($statement->execute()){
+            $return = true;
+        }else{
+            $return = false;
+        }
+        $statement->close();
+        return $return;
+    }
+
+/*******************
+
+show error in addition and edit pages
+
+
+$valid_passwords = array ("admin" => "secret");
+$valid_users = array_keys($valid_passwords);
+
+$user = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : null;
+$pass = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : null;
+
+$validated = (in_array($user, $valid_users)) && ($pass == $valid_passwords[$user]);
+
+if (!$validated) {
+  header('WWW-Authenticate: Basic realm="JEE Questions"');
+  header('HTTP/1.0 401 Unauthorized');
+  die ("Unauthorized access is prohibited");
+}
+
+/*
+        $data = array();
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                // echo "<pre>";
+                // print_r($row);
+                // die;
+                $data[] = $row;
+        // var_dump($row['option_a_type']);
+            }
+        }
+
+        // echo '<pre>';
+        // var_dump($data);
+        // die;
+        return $data;*/

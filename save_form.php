@@ -1,9 +1,5 @@
 <?php
-require_once('db.php');
-
-echo "<pre>";
-print_r($_POST);
-print_r($_FILES);
+require_once('Db.php');
 
 $x = extract($_POST);
 if($question_radio == 'image') {
@@ -29,13 +25,13 @@ $db = new Db();
 $result = $db->insert('questions', $dataCol, $dataVal);
 
 if($result) {
-    header('Location: index.php');
+    header('Location: add.php');
 }
 
 function fileUpload($fieldName)
 {
     if(isset($_FILES[$fieldName])) {
-        $errors= array();
+        $errors = array();
         $file_name = $_FILES[$fieldName]['name'];
         $file_size = $_FILES[$fieldName]['size'];
         $file_tmp = $_FILES[$fieldName]['tmp_name'];

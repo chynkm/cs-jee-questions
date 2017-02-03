@@ -32,13 +32,25 @@ APP.main = {
 
     questionRequired: function() {
         $(document).on('click', '.saveForm', function(e){
+            $('#danger_alert').addClass('hidden').empty();
+            var html = '';
             if($('#question_image').val() == '' && $('#question').val() == '') {
-                alert('The Question field is required.');
-                e.preventDefault();
-                return false;
+                html += "The <strong>Question</strong> field is required. </br/>";
             }
-            if($('#subject').val() == '') {
-                alert('The Subject field is required.');
+            if(!$('.exam_type_radio').is(':checked')) {
+                html += "The <strong>Exam</strong> type field is required.<br/>";
+            }
+            if(!$('.complexity_radio').is(':checked')) {
+                html += "The <strong>Complexity</strong> field is required.<br/>";
+            }
+            if(!$('.subject').is(':checked')) {
+                html += "The <strong>Subject</strong> field is required.<br/>";
+            }
+            if(!$('.answer_radio').is(':checked')) {
+                html += "The <strong>Key</strong> field is required.<br/>";
+            }
+            if(html != '') {
+                $('#danger_alert').html(html).removeClass('hidden');
                 e.preventDefault();
                 return false;
             }

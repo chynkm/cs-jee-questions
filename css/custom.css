@@ -7,6 +7,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
+  background-color: #81C0F8;
 }
 .footer {
   position: absolute;
@@ -24,7 +25,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  padding: 60px 15px 0;
+  padding: 20px 15px 10px;
 }
 
 .footer > .container {
@@ -38,4 +39,17 @@ code {
 
 .top20{
   margin-top: 20px;
+}
+
+textarea.form-control {
+  background-color: #CDE2F1;
+}
+
+li.disabled {
+  pointer-events: none;
+}
+
+.required_field:after {
+  content: ' *';
+  color: #e32;
 }
