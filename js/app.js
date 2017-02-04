@@ -30,11 +30,28 @@ APP.main = {
         });
     },
 
+    flashMessage: function(status, message) {
+        if(status == "success") {
+            $('#success_alert').html(message).removeClass('hidden');
+        } else {
+            $('#danger_alert').html(message).removeClass('hidden');
+        }
+    },
+
+    imageSelect: function(names) {
+        $(function(){
+            var parsedNames = JSON.parse(names);
+            $.each(parsedNames, function( index, value ) {
+                $(":radio[name="+value+"][value=image]").prop("checked", true).trigger("click");
+            });
+        });
+    },
+
     questionRequired: function() {
         $(document).on('click', '.saveForm', function(e){
             $('#danger_alert').addClass('hidden').empty();
             var html = '';
-            if($('#question_image').val() == '' && $('#question').val() == '') {
+            if($('#question_image').val() == '' && $('#question').val() == '' && $('#question_image_url').length == 0) {
                 html += "The <strong>Question</strong> field is required. </br/>";
             }
             if(!$('.exam_type_radio').is(':checked')) {
@@ -51,6 +68,7 @@ APP.main = {
             }
             if(html != '') {
                 $('#danger_alert').html(html).removeClass('hidden');
+                $('html, body').scrollTop(50);
                 e.preventDefault();
                 return false;
             }

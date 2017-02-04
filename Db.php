@@ -21,6 +21,10 @@ class Db
      *
      * @author Karthik M <chynkm@gmail.com>
      *
+     * @param  string $table
+     * @param  array $colArray
+     * @param  array $valArray
+     *
      * @return boolean
      */
     public function insert($table, $colArray, $valArray)
@@ -34,9 +38,131 @@ class Db
     }
 
     /**
+     * Filter string for insertion in DB
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  string $var
+     *
+     * @return string
+     */
+    private function filterString($var)
+    {
+        return $this->conn->real_escape_string($var);
+    }
+
+    /**
+     * Insert question to DB
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  array $post
+     *
+     * @return boolean
+     */
+    public function insertQuestion($post)
+    {
+        $sql = "INSERT INTO questions (
+            user_id,
+            subject_id,
+            exam_type,
+            complexity,
+            question_type,
+            question,
+            option_a_type,
+            option_a,
+            option_b_type,
+            option_b,
+            option_c_type,
+            option_c,
+            option_d_type,
+            option_d,
+            answer,
+            comments
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $statement = $this->conn->prepare($sql);
+        $post = array_map(array($this, 'filterString'), $post);
+        $statement->bind_param('iissssssssssssss',
+            intval($_SESSION['userId']),
+            $post['subject_id'],
+            $post['exam_type'],
+            $post['complexity'],
+            $post['question_type'],
+            $post['question'],
+            $post['option_a_type'],
+            $post['option_a'],
+            $post['option_b_type'],
+            $post['option_b'],
+            $post['option_c_type'],
+            $post['option_c'],
+            $post['option_d_type'],
+            $post['option_d'],
+            $post['answer'],
+            $post['comments']
+        );
+
+        if($statement->execute()) {
+            $statement->close();
+            return true;
+        } else {
+            die("ERROR: Executing the following SQL command failed: $sql. " . mysqli_error($this->conn));
+        }
+    }
+
+    /**
+     * Insert question to DB
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  string $columns
+     * @param  string $bindParams
+     * @param  array $post
+     *
+     * @return boolean
+     */
+    public function updateQuestion($columns, $bindParams, $post)
+    {
+        $sql = "UPDATE questions SET ".$columns." where id = ?";
+
+        $statement = $this->conn->prepare($sql);
+        $post = array_map(array($this, 'filterString'), $post);
+        $queryParams[] = $bindParams;
+        foreach ($post as $term) {
+            $queryParams[] = $term;
+        }
+        call_user_func_array(array($statement, 'bind_param'), $this->procesBindParams($queryParams));
+
+        if($statement->execute()) {
+            $statement->close();
+            return true;
+        } else {
+            die("ERROR: Executing the following SQL command failed: $sql. " . mysqli_error($this->conn));
+        }
+    }
+
+    /**
+     * Process params for inserting into DB
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  array $arr
+     *
+     * @return array
+     */
+    private function procesBindParams($arr){
+        $refs = array();
+        foreach($arr as $key => $value) {
+            $refs[$key] = &$arr[$key];
+        }
+        return $refs;
+    }
+
+    /**
      * get question info
      *
      * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  int $id
      *
      * @return array
      */
@@ -51,6 +177,41 @@ class Db
             $query = $statement->get_result();
             if($query->num_rows) {
                 $result = $query->fetch_assoc();
+            }
+            $statement->free_result();
+            $statement->close();
+        } else {
+            die("ERROR: Executing the following SQL command failed: $sql. " . mysqli_error($this->conn));
+        }
+
+        return $result;
+    }
+
+    /**
+     * Check login credentials
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  string $username
+     * @param  string $password
+     *
+     * @return boolean
+     */
+    public function verifyLogin($username, $password)
+    {
+        $sql = "SELECT * FROM users where username = ? and password = ?";
+        $statement = $this->conn->prepare($sql);
+        $statement->bind_param('ss', $username, $password);
+
+        $result = false;
+        if($statement->execute()) {
+            $query = $statement->get_result();
+            if($query->num_rows) {
+                $userInfo = $query->fetch_assoc();
+                $_SESSION['userId'] = $userInfo['id'];
+                $_SESSION['username'] = $userInfo['username'];
+                $_SESSION['loggedIn'] = true;
+                $result = true;
             }
             $statement->free_result();
             $statement->close();

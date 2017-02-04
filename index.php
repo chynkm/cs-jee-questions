@@ -1,4 +1,5 @@
 <?php
+require_once('session.php');
 require_once('Db.php');
 
 $page = isset($_GET['page']) && intval($_GET['page']) > 0 ? $_GET['page'] : 0;
@@ -9,8 +10,8 @@ $db = new Db();
 $result = $db->paginateQuestionsTable($limit, $offset);
 $totalPages = ceil($result['total'] / $limit);
 $links = 4;
-$start = (( $page - $links ) > 0 ) ? $page - $links : 1;
-$end = (( $page + $links ) < $totalPages ) ? $page + $links : $totalPages;
+$start = ($page - $links) > 0 ? $page - $links : 1;
+$end = ($page + $links) < $totalPages ? $page + $links : $totalPages;
 
 include_once('header.php');
 ?>
@@ -18,7 +19,14 @@ include_once('header.php');
     <div class="col-md-12">
         <div class="page-header">
             <h1 class="text-center">Questions Listing</h1>
-            <p class="text-right">Total number of questions: <strong><?php echo $result['total']; ?></strong></p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Total number of questions: <strong><?php echo $result['total']; ?></strong></p>
+                </div>
+                <div class="col-md-6 text-right">
+                    <a href="prepare_html.php" target="_blank" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download PDF</a>
+                </div>
+            </div>
         </div>
         <div class="table-responsive">
             <table class="table table-condensed">
@@ -56,7 +64,7 @@ include_once('header.php');
         <?php if($start != $end): ?>
         <nav aria-label="Page navigation" class="text-center">
             <ul class="pagination">
-                <li<?php if($start - 1 == 0) echo ' class="disabled"'; ?>>
+                <li<?php if($page == 0) echo ' class="disabled"'; ?>>
                     <a aria-label="Previous"<?php if($page) echo ' href="?page='.($page-1).'"';?>> <span aria-hidden="true">«</span> </a>
                 </li>
                 <?php foreach(range($start,$end) as $number):?>

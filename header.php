@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
-        <meta name="author" content="">
+        <meta name="author" content="TopTrix Technologies">
         <link rel="icon" href="../../favicon.ico">
         <title>Falcon First</title>
         <!-- Bootstrap core CSS -->
@@ -27,11 +27,11 @@
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="add.php">Add</a></li>
-                        <li><a href="index.php">List</a></li>
+                        <li><a href="add.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a></li>
+                        <li><a href="index.php"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> List</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="../navbar-fixed-top/">Logout</a></li>
+                        <li><a href="logout.php">Logout <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> </a></li>
                     </ul>
                 </div>
                 <!--/.nav-collapse -->
@@ -43,3 +43,4 @@
         </div>
         <div class="alert alert-danger hidden" role="alert" id="danger_alert">
         </div>
+

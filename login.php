@@ -1,3 +1,18 @@
+<?php
+session_start();
+require_once('Db.php');
+$message = '';
+
+if(count($_POST)>0) {
+    $db = new Db();
+    $status = $db->verifyLogin($_POST['username'], $_POST['password']);
+    if($status) {
+        header("Location: index.php");
+    } else {
+        $message = "Invalid Username or Password!";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="author" content="TopTrix Technologies">
     <link rel="icon" href="../../favicon.ico">
 
     <title>Login</title>
@@ -26,7 +41,12 @@
 
   <body>
     <div class="container">
-      <form class="form-signin">
+      <form class="form-signin" method="post">
+        <?php if($message): ?>
+        <div class="alert alert-danger" role="alert" id="success_alert">
+          <?php echo $message; ?>
+        </div>
+        <?php endif; ?>
         <h2 class="form-signin-heading">Falcon First</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required autofocus>

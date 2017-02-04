@@ -1,7 +1,13 @@
 <?php
+require_once('session.php');
 require_once('Db.php');
 
+echo "<pre>";
+// print_r($_POST);
+// die;
+
 $x = extract($_POST);
+
 if($question_radio == 'image') {
     $question = fileUpload('question_image');
 }
@@ -18,19 +24,83 @@ if($option_d == 'image') {
     $answer_d = fileUpload('answer_d_image');
 }
 
-$dataCol = "(subject_id, question_type, question, option_a_type, option_a, option_b_type, option_b, option_c_type, option_c, option_d_type, option_d)";
-$dataVal = "($subject, '$question_radio', '$question', '$option_a', '$answer_a', '$option_b', '$answer_b', '$option_c', '$answer_c', '$option_d', '$answer_d')";
+$post['subject_id'] = $subject;
+$post['exam_type'] = $exam_type;
+$post['complexity'] = $complexity;
+$post['answer'] = $answer;
+$post['comments'] = $comments;
 
 $db = new Db();
-$result = $db->insert('questions', $dataCol, $dataVal);
+if($_POST['id']) {
+
+    $columns = 'subject_id = ?, exam_type = ?, complexity = ?, answer = ?, comments = ?';
+    $bindParams = 'issss';
+    $bindParamValues = array($post['subject_id'], $post['exam_type'], $post['complexity'], $post['answer'], $post['comments']);
+
+    if($question) {
+        $columns .= ', question_type = ?, question = ?';
+        $bindParams .= 'ss';
+        array_push($bindParamValues, $question_radio, $question);
+    }
+
+    if($answer_a) {
+        $columns .= ', option_a_type = ?, option_a = ?';
+        $bindParams .= 'ss';
+        array_push($bindParamValues, $option_a, $answer_a);
+    }
+
+    if($answer_b) {
+        $columns .= ', option_b_type = ?, option_b = ?';
+        $bindParams .= 'ss';
+        array_push($bindParamValues, $option_b, $answer_b);
+    }
+
+    if($answer_c) {
+        $columns .= ', option_c_type = ?, option_c = ?';
+        $bindParams .= 'ss';
+        array_push($bindParamValues, $option_c, $answer_c);
+    }
+
+    if($answer_d) {
+        $columns .= ', option_d_type = ?, option_d = ?';
+        $bindParams .= 'ss';
+        array_push($bindParamValues, $option_d, $answer_d);
+    }
+
+    $bindParams .= 'i';
+    array_push($bindParamValues, $_POST['id']);
+
+    // print_r($bindParamValues);
+    // var_dump(implode(', ', $bindParamValues));
+
+    $result = $db->updateQuestion($columns, $bindParams, $bindParamValues);
+    // die;
+} else {
+
+    $post['question_type'] = $question_radio;
+    $post['question'] = $question;
+    $post['option_a_type'] = $option_a;
+    $post['option_a'] = $answer_a;
+    $post['option_b_type'] = $option_b;
+    $post['option_b'] = $answer_b;
+    $post['option_c_type'] = $option_c;
+    $post['option_c'] = $answer_c;
+    $post['option_d_type'] = $option_d;
+    $post['option_d'] = $answer_d;
+
+    $result = $db->insertQuestion($post);
+}
 
 if($result) {
-    header('Location: add.php');
+    $_SESSION['successFlash'] = 'Question saved successfully.';
+} else {
+    $_SESSION['errorFlash'] = 'Oh snap! There was an error in saving the question. Please try again';
 }
+header('Location: add.php');
 
 function fileUpload($fieldName)
 {
-    if(isset($_FILES[$fieldName])) {
+    if(isset($_FILES[$fieldName]) && $_FILES[$fieldName]['name'] != '') {
         $errors = array();
         $file_name = $_FILES[$fieldName]['name'];
         $file_size = $_FILES[$fieldName]['size'];
@@ -58,3 +128,4 @@ function fileUpload($fieldName)
         }
     }
 }
+

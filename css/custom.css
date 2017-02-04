@@ -25,7 +25,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  padding: 20px 15px 10px;
+  padding: 5px 15px 10px;
 }
 
 .footer > .container {
@@ -35,6 +35,10 @@ body > .container {
 
 code {
   font-size: 80%;
+}
+
+.down10{
+  margin-bottom: 10px;
 }
 
 .top20{

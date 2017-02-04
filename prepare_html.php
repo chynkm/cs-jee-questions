@@ -1,9 +1,8 @@
 <?php
+require_once('session.php');
 require_once('Db.php');
 
-function imageUrl($fileName) {
-    return '<img src="/uploads/'.$fileName.'" class="img-rounded img-responsive">';
-}
+define('WKHTMLTOPDF', '/usr/local/bin/wkhtmltopdf.sh');
 
 $db = new Db();
 $questions = $db->getAllQuestions();
@@ -114,4 +113,13 @@ $html = <<<QUES
 QUES;
 
 file_put_contents($file, $html, FILE_APPEND);
+
+exec(WKHTMLTOPDF.' '.getcwd()."/questions.html questions.pdf > /dev/null &");
+
+$fileName = 'Questions-'.date('H-i-s-d-m-Y').'.pdf';
+$fileUrl = 'http://'.$_SERVER['SERVER_NAME'].'/questions.pdf';
+header('Content-type: application/pdf');
+header("Content-disposition: attachment; filename=\"".$fileName."\"");
+readfile($fileUrl);
+exit;
 
