@@ -63,7 +63,7 @@ include_once('header.php');
                     <input type="radio" name="question_radio" class="input_type" value="image"> Image
                 </label>
                 <textarea class="form-control down10 text_area" id="question" name="question" rows="4"><?php if(isset($_GET['id']) && $question['question_type'] == 'text') echo $question['question']; ?></textarea>
-                <input type="file" class="file_upload hidden" id="question_image" name="question_image">
+                <input type="file" class="file_upload hidden" id="question_image" name="question_image" accept="image/gif, image/jpg, image/jpeg, image/png">
                 <?php if(isset($_GET['id']) && $question['question_type'] == 'image'): ?>
                 <span id="question_image_url">
                     <?php echo imageUrl($question['question']); ?>
@@ -81,7 +81,7 @@ include_once('header.php');
                             <input type="radio" name="option_a" class="input_type" value="image"> Image
                         </label>
                         <textarea class="form-control down10 text_area" name="answer_a" rows="4"><?php if(isset($_GET['id']) && $question['option_a_type'] == 'text') echo $question['option_a']; ?></textarea>
-                        <input type="file" class="file_upload hidden" name="answer_a_image">
+                        <input type="file" class="file_upload hidden" name="answer_a_image" accept="image/gif, image/jpg, image/jpeg, image/png">
                         <?php if(isset($_GET['id']) && $question['option_a_type'] == 'image'): ?>
                         <span id="answer_a_image_url">
                             <?php echo imageUrl($question['option_a']); ?>
@@ -99,7 +99,7 @@ include_once('header.php');
                             <input type="radio" name="option_b" class="input_type" value="image"> Image
                         </label>
                         <textarea class="form-control down10 text_area" name="answer_b" rows="4"><?php if(isset($_GET['id']) && $question['option_b_type'] == 'text') echo $question['option_b']; ?></textarea>
-                        <input type="file" class="file_upload hidden" name="answer_b_image">
+                        <input type="file" class="file_upload hidden" name="answer_b_image" accept="image/gif, image/jpg, image/jpeg, image/png">
                         <?php if(isset($_GET['id']) && $question['option_b_type'] == 'image'): ?>
                         <span id="answer_b_image_url">
                             <?php echo imageUrl($question['option_b']); ?>
@@ -119,7 +119,7 @@ include_once('header.php');
                             <input type="radio" name="option_c" class="input_type" value="image"> Image
                         </label>
                         <textarea class="form-control down10 text_area" name="answer_c" rows="4"><?php if(isset($_GET['id']) && $question['option_c_type'] == 'text') echo $question['option_c']; ?></textarea>
-                        <input type="file" class="file_upload hidden" name="answer_c_image">
+                        <input type="file" class="file_upload hidden" name="answer_c_image" accept="image/gif, image/jpg, image/jpeg, image/png">
                         <?php if(isset($_GET['id']) && $question['option_c_type'] == 'image'): ?>
                         <span id="answer_c_image_url">
                             <?php echo imageUrl($question['option_c']); ?>
@@ -137,7 +137,7 @@ include_once('header.php');
                             <input type="radio" name="option_d" class="input_type" value="image"> Image
                         </label>
                         <textarea class="form-control text_area" name="answer_d" rows="4"><?php if(isset($_GET['id']) && $question['option_d_type'] == 'text') echo $question['option_d']; ?></textarea>
-                        <input type="file" class="file_upload hidden" name="answer_d_image">
+                        <input type="file" class="file_upload hidden" name="answer_d_image" accept="image/gif, image/jpg, image/jpeg, image/png">
                         <?php if(isset($_GET['id']) && $question['option_d_type'] == 'image'): ?>
                         <span id="answer_d_image_url">
                             <?php echo imageUrl($question['option_d']); ?>

@@ -3,7 +3,7 @@ session_start();
 require_once('Db.php');
 $message = '';
 
-if(count($_POST)>0) {
+if(count($_POST) > 0 && isset($_POST['username']) && $_POST['username'] != '' && isset($_POST['password']) && $_POST['password'] != '') {
     $db = new Db();
     $status = $db->verifyLogin($_POST['username'], $_POST['password']);
     if($status) {
@@ -22,7 +22,6 @@ if(count($_POST)>0) {
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="TopTrix Technologies">
-    <link rel="icon" href="../../favicon.ico">
 
     <title>Login</title>
 

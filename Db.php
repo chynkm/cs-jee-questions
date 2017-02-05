@@ -38,20 +38,6 @@ class Db
     }
 
     /**
-     * Filter string for insertion in DB
-     *
-     * @author Karthik M <chynkm@gmail.com>
-     *
-     * @param  string $var
-     *
-     * @return string
-     */
-    private function filterString($var)
-    {
-        return $this->conn->real_escape_string($var);
-    }
-
-    /**
      * Insert question to DB
      *
      * @author Karthik M <chynkm@gmail.com>
@@ -81,7 +67,6 @@ class Db
             comments
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $statement = $this->conn->prepare($sql);
-        $post = array_map(array($this, 'filterString'), $post);
         $statement->bind_param('iissssssssssssss',
             intval($_SESSION['userId']),
             $post['subject_id'],
@@ -125,7 +110,6 @@ class Db
         $sql = "UPDATE questions SET ".$columns." where id = ?";
 
         $statement = $this->conn->prepare($sql);
-        $post = array_map(array($this, 'filterString'), $post);
         $queryParams[] = $bindParams;
         foreach ($post as $term) {
             $queryParams[] = $term;

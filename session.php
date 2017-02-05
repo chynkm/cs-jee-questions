@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if(!$_SESSION['loggedIn']) {
+if(!isset($_SESSION['loggedIn']) || (isset($_SESSION['loggedIn']) && !$_SESSION['loggedIn'])) {
     header("Location: login.php");
 }
 

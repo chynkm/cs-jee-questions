@@ -2,10 +2,6 @@
 require_once('session.php');
 require_once('Db.php');
 
-echo "<pre>";
-// print_r($_POST);
-// die;
-
 $x = extract($_POST);
 
 if($question_radio == 'image') {
@@ -70,11 +66,7 @@ if($_POST['id']) {
     $bindParams .= 'i';
     array_push($bindParamValues, $_POST['id']);
 
-    // print_r($bindParamValues);
-    // var_dump(implode(', ', $bindParamValues));
-
     $result = $db->updateQuestion($columns, $bindParams, $bindParamValues);
-    // die;
 } else {
 
     $post['question_type'] = $question_radio;

@@ -4,3 +4,6 @@
 .container{
     font-size: 20px;
 }
+table.equalDivide tr td {
+    width:25%;
+}
