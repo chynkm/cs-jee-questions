@@ -88,10 +88,12 @@ class Db
             option_d_type,
             option_d,
             answer,
-            comments
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            comments,
+            created_at,
+            updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $statement = $this->conn->prepare($sql);
-        $statement->bind_param('iissssssssssssss',
+        $statement->bind_param('iissssssssssssssss',
             intval($_SESSION['userId']),
             $post['subject_id'],
             $post['exam_type'],
@@ -107,7 +109,9 @@ class Db
             $post['option_d_type'],
             $post['option_d'],
             $post['answer'],
-            $post['comments']
+            $post['comments'],
+            date('Y-m-d H:i:s'),
+            date('Y-m-d H:i:s')
         );
 
         if($statement->execute()) {

@@ -1,4 +1,5 @@
 <?php
+set_time_limit(900);
 require_once('session.php');
 require_once('Db.php');
 
@@ -27,11 +28,11 @@ $post['answer'] = $answer;
 $post['comments'] = $comments;
 
 $db = new Db();
-if($_POST['id']) {
+if(isset($_POST['id'])) {
 
-    $columns = 'subject_id = ?, exam_type = ?, complexity = ?, answer = ?, comments = ?';
-    $bindParams = 'issss';
-    $bindParamValues = array($post['subject_id'], $post['exam_type'], $post['complexity'], $post['answer'], $post['comments']);
+    $columns = 'subject_id = ?, exam_type = ?, complexity = ?, answer = ?, comments = ?, updated_at = ?';
+    $bindParams = 'isssss';
+    $bindParamValues = array($post['subject_id'], $post['exam_type'], $post['complexity'], $post['answer'], $post['comments'], date('Y-m-d H:i:s'));
 
     if($question) {
         $columns .= ', question_type = ?, question = ?';

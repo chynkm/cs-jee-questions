@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 require_once('session.php');
 require_once('Db.php');
 

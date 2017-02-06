@@ -70,7 +70,7 @@ include_once('header.php');
                     <?php if($result['questionCount'] == 0): ?>
                     <tr><td colspan="6">There are no questions.</td></tr>
                     <?php else: ?>
-                    <?php $count = 0; ?>
+                    <?php $count = $page ? $page * $limit : 0; ?>
                     <?php foreach($result['questions'] as $question): ?>
                     <tr>
                         <td><?php echo ++$count; ?></td>
