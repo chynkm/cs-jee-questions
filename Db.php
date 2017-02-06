@@ -38,6 +38,30 @@ class Db
     }
 
     /**
+     * Get summary of Questions in DB
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @return array
+     */
+    public function getSummary()
+    {
+        $sql = "SELECT exam_type, name, complexity, count(*) exam_count from questions q
+            join subjects s on q.subject_id = s.id
+            group by complexity, name, exam_type";
+        $result = $this->conn->query($sql);
+
+        $data = array();
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $data[$row['name']][$row['exam_type']][$row['complexity']] = $row['exam_count'];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
      * Insert question to DB
      *
      * @author Karthik M <chynkm@gmail.com>

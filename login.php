@@ -21,7 +21,7 @@ if(count($_POST) > 0 && isset($_POST['username']) && $_POST['username'] != '' &&
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
-    <meta name="author" content="TopTrix Technologies">
+    <meta name="author" content="">
 
     <title>Login</title>
 
@@ -46,7 +46,7 @@ if(count($_POST) > 0 && isset($_POST['username']) && $_POST['username'] != '' &&
           <?php echo $message; ?>
         </div>
         <?php endif; ?>
-        <h2 class="form-signin-heading">Falcon First</h2>
+        <h2 class="form-signin-heading">SV DEU</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
         <input type="text" name="username" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>

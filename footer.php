@@ -1,7 +1,7 @@
         </div>
         <footer class="footer">
             <div class="container text-center">
-                <span class="text-muted">&copy; Falcon First</span>
+                <span class="text-muted">&copy; <?php echo date('Y'); ?> - SV DEU</span>
             </div>
         </footer>
         <!-- Bootstrap core JavaScript

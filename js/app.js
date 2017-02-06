@@ -54,6 +54,18 @@ APP.main = {
             if($('#question_image').val() == '' && $('#question').val() == '' && $('#question_image_url').length == 0) {
                 html += "The <strong>Question</strong> field is required. </br/>";
             }
+            if($('#answer_a_image').val() == '' && $('#answer_a').val() == '' && $('#answer_a_image_url').length == 0) {
+                html += "The <strong>option A</strong> field is required. </br/>";
+            }
+            if($('#answer_b_image').val() == '' && $('#answer_b').val() == '' && $('#answer_b_image_url').length == 0) {
+                html += "The <strong>option B</strong> field is required. </br/>";
+            }
+            if($('#answer_c_image').val() == '' && $('#answer_c').val() == '' && $('#answer_c_image_url').length == 0) {
+                html += "The <strong>option C</strong> field is required. </br/>";
+            }
+            if($('#answer_d_image').val() == '' && $('#answer_d').val() == '' && $('#answer_d_image_url').length == 0) {
+                html += "The <strong>option D</strong> field is required. </br/>";
+            }
             if(!$('.exam_type_radio').is(':checked')) {
                 html += "The <strong>Exam</strong> type field is required.<br/>";
             }
