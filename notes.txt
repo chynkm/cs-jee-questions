@@ -110,7 +110,7 @@ delete option is used - then listing and pdf should also check for delete status
 
 http://partridgejiang.github.io/Kekule.js/demos/items/CKEditor/ckeditorDemo.html
 
-http://cccbdb.nist.gov/mdlmol3.asp?method=7&basis=0
+http://cccbdb.nist.gov/mdlmol1.asp
 
 echo "<pre>"; print_r(htmlentities($_POST['question']));print_r($_POST); die;
 

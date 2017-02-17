@@ -9,7 +9,7 @@
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="js/jquery-3.1.1.slim.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
-        <script src="js/app.js"></script>
+        <script src="js/app.js?ver=<?php echo md5_file('js/app.js'); ?>"></script>
 <?php
 if(isset($_SESSION['successFlash'])) {
 echo <<<JavaScript
