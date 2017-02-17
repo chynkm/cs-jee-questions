@@ -7,19 +7,34 @@ $x = extract($_POST);
 
 if($question_radio == 'image') {
     $question = fileUpload('question_image');
+} else {
+    $question = htmlentities($question);
 }
+
 if($option_a == 'image') {
     $answer_a = fileUpload('answer_a_image');
+} else {
+    $answer_a = htmlentities($answer_a);
 }
+
 if($option_b == 'image') {
     $answer_b = fileUpload('answer_b_image');
+}  else {
+    $answer_b = htmlentities($answer_b);
 }
+
 if($option_c == 'image') {
     $answer_c = fileUpload('answer_c_image');
+}  else {
+    $answer_c = htmlentities($answer_c);
 }
+
 if($option_d == 'image') {
     $answer_d = fileUpload('answer_d_image');
+}  else {
+    $answer_d = htmlentities($answer_d);
 }
+
 
 $post['subject_id'] = $subject;
 $post['exam_type'] = $exam_type;

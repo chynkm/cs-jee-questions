@@ -5,6 +5,8 @@ $(function() {
 var APP = APP || {};
 
 APP.main = {
+    editors: {},
+
     init: function () {
         this.errorBlock();
         this.selectType();
@@ -19,11 +21,14 @@ APP.main = {
     },
 
     selectType: function() {
+        var self = this;
         $(document).on('click', '.input_type', function(){
             if($(this).val() == "text") {
                 $(this).parents('.form-group').find('.text_area').removeClass('hidden');
+                self.editors[$(this).parents('.form-group').find('.text_area').attr('id')] = self.createEditor($(this).parents('.form-group').find('.text_area').attr('id'));
                 $(this).parents('.form-group').find('.file_upload').addClass('hidden');
             } else {
+                self.removeEditor($(this).parents('.form-group').find('.text_area').attr('id'));
                 $(this).parents('.form-group').find('.file_upload').removeClass('hidden');
                 $(this).parents('.form-group').find('.text_area').addClass('hidden');
             }
@@ -48,22 +53,23 @@ APP.main = {
     },
 
     questionRequired: function() {
+        var self = this;
         $(document).on('click', '.saveForm', function(e){
             $('#danger_alert').addClass('hidden').empty();
             var html = '';
-            if($('#question_image').val() == '' && $('#question').val() == '' && $('#question_image_url').length == 0) {
+            if($('#question_image').val() == '' && self.editors['question'] != null && self.editors['question'].getData() == '' && $('#question_image_url').length == 0) {
                 html += "The <strong>Question</strong> field is required. </br/>";
             }
-            if($('#answer_a_image').val() == '' && $('#answer_a').val() == '' && $('#answer_a_image_url').length == 0) {
+            if($('#answer_a_image').val() == '' && self.editors['answer_a'] != null && self.editors['answer_a'].getData() == '' && $('#answer_a_image_url').length == 0) {
                 html += "The <strong>option A</strong> field is required. </br/>";
             }
-            if($('#answer_b_image').val() == '' && $('#answer_b').val() == '' && $('#answer_b_image_url').length == 0) {
+            if($('#answer_b_image').val() == '' && self.editors['answer_b'] != null && self.editors['answer_b'].getData() == '' && $('#answer_b_image_url').length == 0) {
                 html += "The <strong>option B</strong> field is required. </br/>";
             }
-            if($('#answer_c_image').val() == '' && $('#answer_c').val() == '' && $('#answer_c_image_url').length == 0) {
+            if($('#answer_c_image').val() == '' && self.editors['answer_c'] != null && self.editors['answer_c'].getData() == '' && $('#answer_c_image_url').length == 0) {
                 html += "The <strong>option C</strong> field is required. </br/>";
             }
-            if($('#answer_d_image').val() == '' && $('#answer_d').val() == '' && $('#answer_d_image_url').length == 0) {
+            if($('#answer_d_image').val() == '' && self.editors['answer_d'] != null && self.editors['answer_d'].getData() == '' && $('#answer_d_image_url').length == 0) {
                 html += "The <strong>option D</strong> field is required. </br/>";
             }
             if(!$('.exam_type_radio').is(':checked')) {
@@ -86,4 +92,30 @@ APP.main = {
             }
         });
     },
+
+    initializeEditor: function() {
+        var self = this;
+        ['question', 'answer_a',  'answer_b',  'answer_c',  'answer_d'].forEach(function(item){
+            self.editors[item] = self.createEditor(item);
+        });
+
+        if ( CKEDITOR.env.ie && CKEDITOR.env.version == 8 ) {
+            document.getElementById( 'ie8-warning' ).className = 'tip alert';
+        }
+    },
+
+    createEditor: function(id) {
+        var config = {
+            extraPlugins: 'mathjax',
+            mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
+        };
+        var html = '';
+        return CKEDITOR.replace( id, config, html );
+    },
+
+    removeEditor: function(id) {
+        this.editors[id].destroy();
+        this.editors[id] = null;
+    },
+
 }

@@ -297,7 +297,7 @@ class Db
                     'name' => $name,
                     'exam_type' => $exam_type,
                     'complexity' => $complexity,
-                    'question' => $question_type == 'text' ? substr($question, 0, 40).'...' : 'Image',
+                    'question' => $question_type == 'text' ? substr(strip_tags(html_entity_decode($question)), 0, 40).'...' : 'Image',
                     'created_at' => $created_at,
                 );
             }

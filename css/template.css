@@ -7,3 +7,7 @@
 table.equalDivide tr td {
     width:25%;
 }
+table.equalDivide {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
