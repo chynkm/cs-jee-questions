@@ -105,12 +105,9 @@ APP.main = {
     },
 
     createEditor: function(id) {
-        var config = {
-            extraPlugins: 'mathjax',
-            mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
-        };
+        CKEDITOR.plugins.addExternal( 'kekule', '/js/kekule/', 'plugin.js' );
         var html = '';
-        return CKEDITOR.replace( id, config, html );
+        return CKEDITOR.replace( id, { customConfig: '/js/config.js' }, html );
     },
 
     removeEditor: function(id) {
