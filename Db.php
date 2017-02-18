@@ -48,6 +48,7 @@ class Db
     {
         $sql = "SELECT exam_type, name, complexity, count(*) exam_count from questions q
             join subjects s on q.subject_id = s.id
+            where deleted = 0
             group by complexity, name, exam_type";
         $result = $this->conn->query($sql);
 
@@ -180,7 +181,7 @@ class Db
      */
     public function getQuestion($id)
     {
-        $sql = "SELECT * FROM questions where id = ?";
+        $sql = "SELECT * FROM questions where id = ? and deleted = 0";
         $statement = $this->conn->prepare($sql);
         $statement->bind_param('i', $id);
 
@@ -265,7 +266,7 @@ class Db
      */
     public function getAllQuestions()
     {
-        $sql = "SELECT * FROM questions q join subjects s on s.id = q.subject_id";
+        $sql = "SELECT * FROM questions q join subjects s on s.id = q.subject_id where deleted = 0";
         $result = $this->conn->query($sql);
 
         return $result->num_rows ? $result : array();
@@ -283,7 +284,7 @@ class Db
      */
     public function paginateQuestionsTable($limit, $offset = 0)
     {
-        $query = "SELECT q.id, name, exam_type, complexity, question_type, question, created_at FROM questions q join subjects s on s.id = q.subject_id ORDER BY created_at DESC, q.id ASC LIMIT ? OFFSET ?";
+        $query = "SELECT q.id, name, exam_type, complexity, question_type, question, created_at FROM questions q join subjects s on s.id = q.subject_id where deleted = 0 ORDER BY created_at DESC, q.id ASC LIMIT ? OFFSET ?";
         $statement = $this->conn->prepare($query);
         $statement->bind_param('ii', $limit, $offset);
 
@@ -324,6 +325,9 @@ class Db
     private function countAllResults($table)
     {
         $query = "SELECT count(id) FROM ".$table;
+        if($table == 'questions') {
+            $query .= " where deleted = 0";
+        }
         $statement = $this->conn->prepare($query);
         $total = 0;
         if($statement->execute()) {
@@ -334,5 +338,29 @@ class Db
         $statement->close();
         return $total;
     }
+
+    /**
+     * Delete question
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  int $id
+     *
+     * @return boolean
+     */
+    public function deleteQuestion($id)
+    {
+        $query = "UPDATE questions SET deleted = 1 where id = ?";
+        $statement = $this->conn->prepare($query);
+        $statement->bind_param('i', $id);
+
+        if($statement->execute()) {
+            $statement->close();
+            return true;
+        } else {
+            die("ERROR: Executing the following SQL command failed: $sql. " . mysqli_error($this->conn));
+        }
+    }
+
 }
 

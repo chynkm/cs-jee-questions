@@ -114,3 +114,12 @@ http://cccbdb.nist.gov/mdlmol1.asp
 
 echo "<pre>"; print_r(htmlentities($_POST['question']));print_r($_POST); die;
 
+
+<a href="delete_question.php?id=<?php echo $question['id']; ?>" class="btn btn-danger btn-sm delete_question"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+if($result) {
+    $_SESSION['successFlash'] = 'Question deleted successfully.';
+} else {
+    $_SESSION['errorFlash'] = 'Oh snap! There was an error in deleting the question. Please try again';
+}
+
+header('Location: index.php');

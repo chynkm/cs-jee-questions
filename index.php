@@ -79,7 +79,10 @@ include_once('header.php');
                         <td><?php echo $question['complexity']; ?></td>
                         <td><?php echo $question['question']; ?></td>
                         <td><?php echo date('H:i:s d-m-Y', strtotime($question['created_at'])); ?></td>
-                        <td><a href="add.php?id=<?php echo $question['id']; ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+                        <td>
+                            <a href="add.php?id=<?php echo $question['id']; ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            <button data-id="<?php echo $question['id']; ?>" type="button" class="btn btn-danger btn-sm delete_question"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                     <?php endif; ?>

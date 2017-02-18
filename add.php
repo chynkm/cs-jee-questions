@@ -8,6 +8,7 @@ $subjects = $db->getSubjectsAsList();
 if(isset($_GET['id'])) {
     $question = $db->getQuestion($_GET['id']);
     if(count($question) == 0) {
+        $_SESSION['errorFlash'] = 'Oh snap! You are trying to access question which doesn\'t exist';
         header('Location: index.php');
     }
 }
@@ -160,7 +161,7 @@ include_once('header.php');
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Comments</label>
-                        <textarea class="form-control" name="comments" rows="2"><?php if(isset($_GET['id']) && $question['comments'] != '') echo $question['comments']; ?></textarea>
+                        <textarea class="form-control" name="comments" id="comments" rows="2"><?php if(isset($_GET['id']) && $question['comments'] != '') echo $question['comments']; ?></textarea>
                     </div>
                 </div>
             </div>

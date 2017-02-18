@@ -3,6 +3,10 @@ set_time_limit(0);
 require_once('session.php');
 require_once('Db.php');
 
+function displayHtml($content) {
+    return html_entity_decode(nl2br($content));
+}
+
 define('WKHTMLTOPDF', '/usr/local/bin/wkhtmltopdf.sh');
 
 $db = new Db();
@@ -35,12 +39,12 @@ if($questions != array()) {
     while($question = $questions->fetch_assoc()) {
     $n++;
 
-    $origQuestion = $question['question_type'] == 'text' ? nl2br($question['question']) : imageUrl($question['question']);
+    $origQuestion = $question['question_type'] == 'text' ? displayHtml($question['question']) : imageUrl($question['question']);
 
-    $optionA = $question['option_a_type'] == 'text' ? nl2br($question['option_a']) : imageUrl($question['option_a']);
-    $optionB = $question['option_b_type'] == 'text' ? nl2br($question['option_b']) : imageUrl($question['option_b']);
-    $optionC = $question['option_c_type'] == 'text' ? nl2br($question['option_c']) : imageUrl($question['option_c']);
-    $optionD = $question['option_d_type'] == 'text' ? nl2br($question['option_d']) : imageUrl($question['option_d']);
+    $optionA = $question['option_a_type'] == 'text' ? displayHtml($question['option_a']) : imageUrl($question['option_a']);
+    $optionB = $question['option_b_type'] == 'text' ? displayHtml($question['option_b']) : imageUrl($question['option_b']);
+    $optionC = $question['option_c_type'] == 'text' ? displayHtml($question['option_c']) : imageUrl($question['option_c']);
+    $optionD = $question['option_d_type'] == 'text' ? displayHtml($question['option_d']) : imageUrl($question['option_d']);
 
     $html = <<<QUES
                 <tr>
@@ -74,7 +78,7 @@ QUES;
                 </tr>
 QUES;
 
-    $comments = isset($question['comments']) ? nl2br($question['comments']) : '';
+    $comments = isset($question['comments']) ? displayHtml($question['comments']) : '';
     $exam = isset($question['exam_type']) ? $question['exam_type'] : '';
     $subject = isset($question['name']) ? $question['name'] : '';
     $html .= <<<QUES

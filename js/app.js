@@ -11,6 +11,7 @@ APP.main = {
         this.errorBlock();
         this.selectType();
         this.questionRequired();
+        this.deleteQuestion();
     },
 
     errorBlock: function () {
@@ -95,7 +96,7 @@ APP.main = {
 
     initializeEditor: function() {
         var self = this;
-        ['question', 'answer_a',  'answer_b',  'answer_c',  'answer_d'].forEach(function(item){
+        ['question', 'answer_a',  'answer_b',  'answer_c',  'answer_d', 'comments'].forEach(function(item){
             self.editors[item] = self.createEditor(item);
         });
 
@@ -113,6 +114,21 @@ APP.main = {
     removeEditor: function(id) {
         this.editors[id].destroy();
         this.editors[id] = null;
+    },
+
+    deleteQuestion: function(id) {
+        $('.delete_question').click(function() {
+            if(confirm('Do you want to delete the question?')) {
+                $target = $(this).closest('tr');
+                $.get( 'delete_question.php?id=' + $(this).data('id'), function( data ) {
+                    if(data) {
+                        $target.addClass('danger').slideUp('slow', function () {
+                            $target.remove();
+                        });
+                    }
+                });
+            }
+        });
     },
 
 }
