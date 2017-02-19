@@ -58,11 +58,14 @@ APP.main = {
         $(document).on('click', '.saveForm', function(e){
             $('#danger_alert').addClass('hidden').empty();
             var html = '';
+            if($('#exam_type').val() == '') {
+                html += "The <strong>Exam</strong> type field is required.<br/>";
+            }
+            if($('#complexity').val() == '') {
+                html += "The <strong>Complexity</strong> field is required.<br/>";
+            }
             if($('#subject').val() == '') {
                 html += "The <strong>Subject</strong> field is required.<br/>";
-            }
-            if(!$('.answer_radio').is(':checked')) {
-                html += "The <strong>Key</strong> field is required.<br/>";
             }
             if($('#question_image').val() == '' && self.editors['question'] != null && self.editors['question'].getData() == '' && $('#question_image_url').length == 0) {
                 html += "The <strong>Question</strong> field is required. </br/>";
@@ -79,11 +82,8 @@ APP.main = {
             if($('#answer_d_image').val() == '' && self.editors['answer_d'] != null && self.editors['answer_d'].getData() == '' && $('#answer_d_image_url').length == 0) {
                 html += "The <strong>option D</strong> field is required. </br/>";
             }
-            if($('#exam_type').val() == '') {
-                html += "The <strong>Exam</strong> type field is required.<br/>";
-            }
-            if($('#complexity').val() == '') {
-                html += "The <strong>Complexity</strong> field is required.<br/>";
+            if($('#answer').val() == '') {
+                html += "The <strong>Key</strong> field is required.<br/>";
             }
             if(html != '') {
                 $('#danger_alert').html(html).removeClass('hidden');

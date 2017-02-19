@@ -14,7 +14,7 @@ CREATE TABLE `questions` (
   `option_c` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `option_d_type` enum('text','image') COLLATE utf8mb4_unicode_ci NOT NULL,
   `option_d` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `answer` enum('A','B','C','D') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `comments` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

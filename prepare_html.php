@@ -52,16 +52,28 @@ if($questions != array()) {
                 <td colspan="4">{$origQuestion}</td>
             </tr>
             <tr>
-                <th scope="row">A</th>
-                <th scope="row">B</th>
-                <th scope="row">C</th>
-                <th scope="row">D</th>
+                <th scope="row" colspan="4">A</th>
             </tr>
             <tr>
-                <td>{$optionA}</td>
-                <td>{$optionB}</td>
-                <td>{$optionC}</td>
-                <td>{$optionD}</td>
+                <td colspan="4">{$optionA}</td>
+            </tr>
+            <tr>
+                <th scope="row" colspan="4">B</th>
+            </tr>
+            <tr>
+                <td colspan="4">{$optionB}</td>
+            </tr>
+            <tr>
+                <th scope="row" colspan="4">C</th>
+            </tr>
+            <tr>
+                <td colspan="4">{$optionC}</td>
+            </tr>
+            <tr>
+                <th scope="row" colspan="4">D</th>
+            </tr>
+            <tr>
+                <td colspan="4">{$optionD}</td>
             </tr>
 QUES;
 

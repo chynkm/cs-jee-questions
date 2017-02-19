@@ -23,7 +23,7 @@ include_once('header.php');
             <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
             <?php endif; ?>
             <div class="row form-inline">
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label class="required_field">Exam type</label>
                         <select name="exam_type" class="form-control" id="exam_type">
@@ -33,7 +33,7 @@ include_once('header.php');
                         </select>
                     </div>
                 </div>
-                <div class="col-md-3 text-right">
+                <div class="col-md-4 text-right">
                     <div class="form-group">
                         <label class="required_field">Complexity of the Question</label>
                         <select name="complexity" class="form-control" id="complexity">
@@ -43,7 +43,7 @@ include_once('header.php');
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4 text-right">
+                <div class="col-md-5 text-right">
                     <div class="form-group">
                         <label class="required_field">Subject</label>
                         <select name="subject" class="form-control" id="subject">
@@ -51,16 +51,6 @@ include_once('header.php');
                         <option value="<?php echo $key; ?>" <?php if(isset($_GET['id']) && $question['subject_id'] == $key) echo 'selected'; ?>><?php echo $subject; ?></option>
                         <?php endforeach; ?>
                         </select>
-                    </div>
-                </div>
-                <div class="col-md-3 text-right">
-                    <div class="form-group">
-                        <label class="required_field">Key</label>
-                        <?php foreach(array('A', 'B', 'C', 'D') as $answer): ?>
-                        <label class="radio-inline">
-                            <input type="radio" name="answer" value="<?php echo $answer; ?>" class="answer_radio" <?php if(isset($_GET['id']) && $question['answer'] == $answer) echo 'checked'; ?>> <?php echo $answer; ?>
-                        </label>
-                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -164,7 +154,15 @@ include_once('header.php');
                     </div>
                 </div>
             </div>
-            <div class="row text-right">
+            <div class="row form-inline">
+                <div class="col-md-6 col-md-offset-6 text-right">
+                    <div class="form-group">
+                        <label class="required_field">Key</label>
+                        <input type="text" name="answer" value="<?php if(isset($_GET['id'])) echo $question['answer']; ?>" class="form-control" id="answer">
+                    </div>
+                </div>
+            </div>
+            <div class="row text-right top20">
                 <div class="col-md-12">
                     <button type="submit" class="btn btn-primary saveForm">SAVE</button>
                 </div>
