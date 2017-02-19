@@ -10,7 +10,7 @@ function displayHtml($content) {
 define('WKHTMLTOPDF', '/usr/local/bin/wkhtmltopdf.sh');
 
 $db = new Db();
-$questions = $db->getAllQuestions();
+$questions = $db->getAllQuestions($_POST['exam_type'], $_POST['complexity'], $_POST['subject']);
 
 unlink('questions.html');
 unlink('questions.pdf');
@@ -25,16 +25,14 @@ $html = <<<QUES
     </head>
     <body>
         <div class="container">
-            <div class="table-responsive">
-                <table class="table table-condensed table-bordered equalDivide">
-                    <tbody>
+            <table class="table table-condensed table-bordered equalDivide">
+                <tbody>
 
 QUES;
 
 file_put_contents($file, $html, FILE_APPEND);
 $n = 0;
 
-// foreach($questions as $question) {
 if($questions != array()) {
     while($question = $questions->fetch_assoc()) {
     $n++;
@@ -47,54 +45,54 @@ if($questions != array()) {
     $optionD = $question['option_d_type'] == 'text' ? displayHtml($question['option_d']) : imageUrl($question['option_d']);
 
     $html = <<<QUES
-                <tr>
-                    <th scope="row" colspan="4">Question $n</th>
-                </tr>
-                <tr>
-                    <td colspan="4">{$origQuestion}</td>
-                </tr>
-                <tr>
-                    <th scope="row">A</th>
-                    <th scope="row">B</th>
-                    <th scope="row">C</th>
-                    <th scope="row">D</th>
-                </tr>
-                <tr>
-                    <td>{$optionA}</td>
-                    <td>{$optionB}</td>
-                    <td>{$optionC}</td>
-                    <td>{$optionD}</td>
-                </tr>
+            <tr>
+                <th scope="row" colspan="4">Question $n</th>
+            </tr>
+            <tr>
+                <td colspan="4">{$origQuestion}</td>
+            </tr>
+            <tr>
+                <th scope="row">A</th>
+                <th scope="row">B</th>
+                <th scope="row">C</th>
+                <th scope="row">D</th>
+            </tr>
+            <tr>
+                <td>{$optionA}</td>
+                <td>{$optionB}</td>
+                <td>{$optionC}</td>
+                <td>{$optionD}</td>
+            </tr>
 QUES;
 
     $answer = isset($question['answer']) ? $question['answer'] : '';
     $complexity = isset($question['complexity']) ? $question['complexity'] : '';
     $html .= <<<QUES
-                <tr>
-                    <th scope="row">Answer:</th>
-                    <td>{$answer}</td>
-                    <th scope="row">Complexity:</th>
-                    <td>{$complexity}</td>
-                </tr>
+            <tr>
+                <th scope="row">Answer:</th>
+                <td>{$answer}</td>
+                <th scope="row">Complexity:</th>
+                <td>{$complexity}</td>
+            </tr>
 QUES;
 
     $comments = isset($question['comments']) ? displayHtml($question['comments']) : '';
     $exam = isset($question['exam_type']) ? $question['exam_type'] : '';
     $subject = isset($question['name']) ? $question['name'] : '';
     $html .= <<<QUES
-                <tr>
-                    <th scope="row">Exam:</th>
-                    <td>{$exam}</td>
-                    <th scope="row">Subject:</th>
-                    <td>{$subject}</td>
-                </tr>
-                <tr>
-                    <th scope="row">Comments:</th>
-                    <td colspan="3">{$comments}</td>
-                </tr>
-                <tr>
-                    <td colspan="4"></td>
-                </tr>
+            <tr>
+                <th scope="row">Exam:</th>
+                <td>{$exam}</td>
+                <th scope="row">Subject:</th>
+                <td>{$subject}</td>
+            </tr>
+            <tr>
+                <th scope="row">Comments:</th>
+                <td colspan="3">{$comments}</td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
 QUES;
 
     file_put_contents($file, $html, FILE_APPEND);
@@ -102,9 +100,8 @@ QUES;
 }
 
 $html = <<<QUES
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
     </body>
 </html>
@@ -114,7 +111,7 @@ file_put_contents($file, $html, FILE_APPEND);
 
 $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
 
-exec(WKHTMLTOPDF.' '.$protocol.$_SERVER['SERVER_NAME']."/questions.html questions.pdf > /dev/null");
+exec(WKHTMLTOPDF.' -O landscape '.$protocol.$_SERVER['SERVER_NAME']."/questions.html questions.pdf > /dev/null");
 
 $fileName = 'Questions-'.date('H-i-s-d-m-Y').'.pdf';
 $fileUrl = $protocol.$_SERVER['SERVER_NAME'].'/questions.pdf';

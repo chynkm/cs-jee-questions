@@ -262,11 +262,24 @@ class Db
      *
      * @author Karthik M <chynkm@gmail.com>
      *
+     * @param  int|string $examType
+     * @param  int|string $complexity
+     * @param  int|string $subject
+     *
      * @return object|array
      */
-    public function getAllQuestions()
+    public function getAllQuestions($examType, $complexity, $subject)
     {
         $sql = "SELECT * FROM questions q join subjects s on s.id = q.subject_id where deleted = 0";
+        if($examType != 'all') {
+            $sql .= " and exam_type =  '".$examType."'";
+        }
+        if($complexity != 'all') {
+            $sql .= " and complexity = '".$complexity."'";
+        }
+        if($subject != 'all') {
+            $sql .= " and subject_id = '".$subject."'";
+        }
         $result = $this->conn->query($sql);
 
         return $result->num_rows ? $result : array();
@@ -298,7 +311,7 @@ class Db
                     'name' => $name,
                     'exam_type' => $exam_type,
                     'complexity' => $complexity,
-                    'question' => $question_type == 'text' ? substr(strip_tags(html_entity_decode($question)), 0, 40).'...' : 'Image',
+                    'question' => $question_type == 'text' ? ( strlen(strip_tags(html_entity_decode($question))) > 40 ? substr(strip_tags(html_entity_decode($question)), 0, 40).'...' : strip_tags(html_entity_decode($question))) : 'Image',
                     'created_at' => $created_at,
                 );
             }
@@ -322,7 +335,7 @@ class Db
      *
      * @return int
      */
-    private function countAllResults($table)
+    public function countAllResults($table)
     {
         $query = "SELECT count(id) FROM ".$table;
         if($table == 'questions') {

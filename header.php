@@ -9,7 +9,7 @@
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <!-- Custom styles for this template -->
-        <link href="css/custom.css" rel="stylesheet">
+        <link href="css/custom.css?ver=<?php echo md5_file('css/custom.css'); ?>" rel="stylesheet">
     </head>
     <body>
         <!-- Static navbar -->
@@ -28,6 +28,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="add.php"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</a></li>
                         <li><a href="index.php"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> List</a></li>
+                        <li><a href="summary.php"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Summary</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="logout.php">Logout <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> </a></li>

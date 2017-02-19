@@ -22,34 +22,43 @@ include_once('header.php');
             <?php if(isset($_GET['id'])): ?>
             <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
             <?php endif; ?>
-            <div class="row">
-                <div class="col-md-3">
+            <div class="row form-inline">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label class="required_field">Exam type</label>
-                        <label class="radio-inline">
-                            <input type="radio" name="exam_type" value="IIT" class="exam_type_radio" <?php if(isset($_GET['id']) && $question['exam_type'] == 'IIT') echo 'checked'; ?>> IIT
-                        </label>
-                        <label class="radio-inline">
-                            <input type="radio" name="exam_type" value="NEET" class="exam_type_radio" <?php if(isset($_GET['id']) && $question['exam_type'] == 'NEET') echo 'checked'; ?>> NEET
-                        </label>
+                        <select name="exam_type" class="form-control" id="exam_type">
+                        <?php foreach(examTypes() as $exam): ?>
+                        <option value="<?php echo $exam; ?>" <?php if(isset($_GET['id']) && $question['exam_type'] == $exam) echo 'selected'; ?>><?php echo $exam; ?></option>
+                        <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3 text-right">
                     <div class="form-group">
                         <label class="required_field">Complexity of the Question</label>
-                        <?php foreach(array('Simple', 'Medium', 'Hard') as $complexity): ?>
-                        <label class="radio-inline">
-                            <input type="radio" name="complexity" value="<?php echo $complexity; ?>" class="complexity_radio" <?php if(isset($_GET['id']) && $question['complexity'] == $complexity) echo 'checked'; ?>> <?php echo $complexity; ?>
-                        </label>
+                        <select name="complexity" class="form-control" id="complexity">
+                        <?php foreach(complexities() as $complexity): ?>
+                        <option value="<?php echo $complexity; ?>" <?php if(isset($_GET['id']) && $question['complexity'] == $complexity) echo 'selected'; ?>><?php echo $complexity; ?></option>
                         <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-right">
                     <div class="form-group">
                         <label class="required_field">Subject</label>
-                        <?php foreach($subjects as $key => $subject): ?>
+                        <select name="subject" class="form-control" id="subject">
+                        <?php foreach(array('' => 'Please select a subject')+$subjects as $key => $subject): ?>
+                        <option value="<?php echo $key; ?>" <?php if(isset($_GET['id']) && $question['subject_id'] == $key) echo 'selected'; ?>><?php echo $subject; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 text-right">
+                    <div class="form-group">
+                        <label class="required_field">Key</label>
+                        <?php foreach(array('A', 'B', 'C', 'D') as $answer): ?>
                         <label class="radio-inline">
-                            <input type="radio" name="subject" class="subject" value="<?php echo $key; ?>" class="complexity_radio" <?php if(isset($_GET['id']) && $question['subject_id'] == $key) echo 'checked'; ?>> <?php echo $subject; ?>
+                            <input type="radio" name="answer" value="<?php echo $answer; ?>" class="answer_radio" <?php if(isset($_GET['id']) && $question['answer'] == $answer) echo 'checked'; ?>> <?php echo $answer; ?>
                         </label>
                         <?php endforeach; ?>
                     </div>
@@ -148,25 +157,17 @@ include_once('header.php');
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="required_field">Key</label>
-                        <?php foreach(array('A', 'B', 'C', 'D') as $answer): ?>
-                        <label class="radio-inline">
-                            <input type="radio" name="answer" value="<?php echo $answer; ?>" class="answer_radio" <?php if(isset($_GET['id']) && $question['answer'] == $answer) echo 'checked'; ?>> <?php echo $answer; ?>
-                        </label>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label>Comments</label>
                         <textarea class="form-control" name="comments" id="comments" rows="2"><?php if(isset($_GET['id']) && $question['comments'] != '') echo $question['comments']; ?></textarea>
                     </div>
                 </div>
             </div>
-            <div class="row text-center">
-                <button type="submit" class="btn btn-primary saveForm">SAVE</button>
+            <div class="row text-right">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary saveForm">SAVE</button>
+                </div>
             </div>
         </form>
     </div>

@@ -1,10 +1,9 @@
-DROP TABLE IF EXISTS `questions`;
 CREATE TABLE `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `subject_id` int(11) NOT NULL,
-  `exam_type` enum('IIT','NEET') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `complexity` enum('Simple','Medium','Hard') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exam_type` enum('IIT','NEET','General','Eamcet','NTSE') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `complexity` tinyint(2) NOT NULL DEFAULT '0',
   `question_type` enum('text','image') COLLATE utf8mb4_unicode_ci NOT NULL,
   `question` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `option_a_type` enum('text','image') COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -17,13 +16,14 @@ CREATE TABLE `questions` (
   `option_d` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `answer` enum('A','B','C','D') COLLATE utf8mb4_unicode_ci NOT NULL,
   `comments` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `subject_id` (`subject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE `subjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -33,9 +33,13 @@ CREATE TABLE `subjects` (
 INSERT INTO `subjects` (`id`, `name`) VALUES
 (1, 'Physics'),
 (2, 'Chemistry'),
-(3, 'Mathematics');
+(3, 'Mathematics'),
+(4, 'English'),
+(5, 'Social Studies'),
+(6, 'Competitive General - Arithmetic'),
+(7, 'Competitive General - Reasoning'),
+(8, 'Competitive General - Mental ability');
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,

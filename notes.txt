@@ -44,65 +44,6 @@ dd=dd+1;
 
 http://sdk.ckeditor.com/samples/saveajax.html
 
-
-    CKEDITOR.replace( 'question', {
-        extraPlugins: 'mathjax',
-        mathJaxLib: 'http://cdn.mathjax.org/mathjax/2.6-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML-full',
-    });
-
-
-/*
-        $('.text_area').each(function(){
-            //    CKEDITOR.replace( $(this).attr('id'), );
-            self.createEditor($(this).attr('id'));
-        });*/
-
-        var editors = {};
-        editors[this.question_editor] = $('#question');
-        editors[this.answer_a_editor] = $('#answer_a');
-        editors[this.answer_b_editor] = $('#answer_b');
-        editors[this.answer_c_editor] = $('#answer_c');
-        editors[this.answer_d_editor] = $('#answer_d');
-
-        /*{   this.question_editor: $('#question'),
-            this.answer_a_editor: $('#answer_a'),
-            this.answer_b_editor: $('#answer_b'),
-            this.answer_c_editor: $('#answer_c'),
-            this.answer_d_editor: $('#answer_d')  }.each(function(item, key) {*/
-
-        /*editors.forEach(function(item, key) {
-            console.log(key, item);
-            // key = self.createEditor(item);
-        });
-*/
-        for (var key in editors) {
-            console.log(key);
-            console.log(editors[key]);
-            key = self.createEditor(editors[key]);
-            console.log(key);
-        }
-
-
-    /*question: $('#question'),
-    answer_a: $('#answer_a'),
-    answer_b: $('#answer_b'),
-    answer_c: $('#answer_c'),
-    answer_d: $('#answer_d'),
-    */
-
-
-    question_editor: '',
-    answer_a_editor: '',
-    answer_b_editor: '',
-    answer_c_editor: '',
-    answer_d_editor: '',
-    /*
-        this.question_editor = this.createEditor('question');
-        this.answer_a_editor = this.createEditor('answer_a');
-        this.answer_b_editor = this.createEditor('answer_b');
-        this.answer_c_editor = this.createEditor('answer_c');
-        this.answer_d_editor = this.createEditor('answer_d');*/
-
 space validation in editor
 line break validation
 

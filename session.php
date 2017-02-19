@@ -17,3 +17,25 @@ if(!isset($_SESSION['loggedIn']) || (isset($_SESSION['loggedIn']) && !$_SESSION[
 function imageUrl($fileName) {
     return '<img src="/uploads/'.$fileName.'" class="img-rounded img-responsive">';
 }
+
+/**
+ * Different types of Question exam types
+ *
+ * @author Karthik M <chynkm@gmail.com>
+ *
+ * @return array
+ */
+function examTypes() {
+    return array('General', 'IIT', 'NEET', 'Eamcet', 'NTSE');
+}
+
+/**
+ * Complexities of Questions
+ *
+ * @author Karthik M <chynkm@gmail.com>
+ *
+ * @return array
+ */
+function complexities() {
+    return range(0, 5);
+}
