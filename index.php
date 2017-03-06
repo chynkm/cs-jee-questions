@@ -28,8 +28,9 @@ include_once('header.php');
                     <tr>
                         <th>No.</th>
                         <th>Subject</th>
-                        <th>Exam Type</th>
+                        <th>Exam type</th>
                         <th>Complexity</th>
+                        <th>Type of question</th>
                         <th>Question</th>
                         <th>Created date</th>
                         <th>Action</th>
@@ -46,6 +47,7 @@ include_once('header.php');
                         <td><?php echo $question['name']; ?></td>
                         <td><?php echo $question['exam_type']; ?></td>
                         <td><?php echo $question['complexity']; ?></td>
+                        <td><?php echo questionTypes($question['type_of_question']); ?></td>
                         <td><?php echo $question['question']; ?></td>
                         <td><?php echo date('H:i:s d-m-Y', strtotime($question['created_at'])); ?></td>
                         <td>

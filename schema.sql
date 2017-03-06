@@ -50,3 +50,6 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
 (1, 'admin',    'secret',   '2017-02-04 08:10:04');
+
+ALTER TABLE `questions`
+ADD `type_of_question` tinyint(2) NOT NULL COMMENT '1: Single Answer, 2: More than one answer, 3: Comprehension, 4: Matrix matching, 5: Integer' AFTER `complexity`;

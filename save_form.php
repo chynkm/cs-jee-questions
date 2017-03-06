@@ -41,13 +41,14 @@ $post['exam_type'] = $exam_type;
 $post['complexity'] = $complexity;
 $post['answer'] = $answer;
 $post['comments'] = $comments;
+$post['type_of_question'] = $type_of_question;
 
 $db = new Db();
 if(isset($_POST['id'])) {
 
-    $columns = 'subject_id = ?, exam_type = ?, complexity = ?, answer = ?, comments = ?, updated_at = ?';
-    $bindParams = 'isssss';
-    $bindParamValues = array($post['subject_id'], $post['exam_type'], $post['complexity'], $post['answer'], $post['comments'], date('Y-m-d H:i:s'));
+    $columns = 'subject_id = ?, exam_type = ?, complexity = ?, type_of_question = ?, answer = ?, comments = ?, updated_at = ?';
+    $bindParams = 'ississs';
+    $bindParamValues = array($post['subject_id'], $post['exam_type'], $post['complexity'], $post['type_of_question'], $post['answer'], $post['comments'], date('Y-m-d H:i:s'));
 
     if($question) {
         $columns .= ', question_type = ?, question = ?';

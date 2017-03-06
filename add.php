@@ -23,7 +23,7 @@ include_once('header.php');
             <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>">
             <?php endif; ?>
             <div class="row form-inline">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label class="required_field">Exam type</label>
                         <select name="exam_type" class="form-control" id="exam_type">
@@ -33,9 +33,9 @@ include_once('header.php');
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4 text-right">
+                <div class="col-md-2 text-right">
                     <div class="form-group">
-                        <label class="required_field">Complexity of the Question</label>
+                        <label class="required_field">Complexity</label>
                         <select name="complexity" class="form-control" id="complexity">
                         <?php foreach(complexities() as $complexity): ?>
                         <option value="<?php echo $complexity; ?>" <?php if(isset($_GET['id']) && $question['complexity'] == $complexity) echo 'selected'; ?>><?php echo $complexity; ?></option>
@@ -43,12 +43,22 @@ include_once('header.php');
                         </select>
                     </div>
                 </div>
-                <div class="col-md-5 text-right">
+                <div class="col-md-4 text-right">
                     <div class="form-group">
                         <label class="required_field">Subject</label>
                         <select name="subject" class="form-control" id="subject">
                         <?php foreach(array('' => 'Please select a subject')+$subjects as $key => $subject): ?>
                         <option value="<?php echo $key; ?>" <?php if(isset($_GET['id']) && $question['subject_id'] == $key) echo 'selected'; ?>><?php echo $subject; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <div class="form-group">
+                        <label class="required_field">Type of Question</label>
+                        <select name="type_of_question" class="form-control" id="type_of_question">
+                        <?php foreach(questionTypes() as $key => $type): ?>
+                        <option value="<?php echo $key; ?>" <?php if(isset($_GET['id']) && $question['type_of_question'] == $key) echo 'selected'; ?>><?php echo $type; ?></option>
                         <?php endforeach; ?>
                         </select>
                     </div>

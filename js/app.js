@@ -67,6 +67,9 @@ APP.main = {
             if($('#subject').val() == '') {
                 html += "The <strong>Subject</strong> field is required.<br/>";
             }
+            if($('#type_of_question').val() == '') {
+                html += "The <strong>Type of Question</strong> field is required.<br/>";
+            }
             if($('#question_image').val() == '' && self.editors['question'] != null && self.editors['question'].getData() == '' && $('#question_image_url').length == 0) {
                 html += "The <strong>Question</strong> field is required. </br/>";
             }

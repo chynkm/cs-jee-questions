@@ -52,7 +52,7 @@ include_once('header.php');
         </div>
         <div class="row">
             <form class="form-inline" action="prepare_html.php" method="post">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label class="required_field">Exam type</label>
                         <select name="exam_type" class="form-control" id="exam_type">
@@ -62,9 +62,9 @@ include_once('header.php');
                         </select>
                     </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-2 text-right">
                     <div class="form-group">
-                        <label class="required_field">Complexity of the Question</label>
+                        <label class="required_field">Complexity</label>
                         <select name="complexity" class="form-control" id="complexity">
                         <?php foreach(array_merge(array('all'), complexities()) as $complexity): ?>
                         <option value="<?php echo $complexity; ?>"><?php echo ucfirst($complexity); ?></option>
@@ -72,12 +72,22 @@ include_once('header.php');
                         </select>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 text-right">
                     <div class="form-group">
                         <label class="required_field">Subject</label>
                         <select name="subject" class="form-control" id="subject">
                         <?php foreach(array('all' => 'All')+$subjects as $key => $subject): ?>
                         <option value="<?php echo $key; ?>"><?php echo $subject; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <div class="form-group">
+                        <label class="required_field">Type of Question</label>
+                        <select name="type_of_question" class="form-control" id="type_of_question">
+                        <?php foreach(array('all' => 'All')+questionTypes() as $key => $type): ?>
+                        <option value="<?php echo $key; ?>"><?php echo $type; ?></option>
                         <?php endforeach; ?>
                         </select>
                     </div>

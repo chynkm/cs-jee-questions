@@ -11,3 +11,6 @@ table.equalDivide {
     table-layout: fixed;
     word-wrap: break-word;
 }
+table.equalDivide tr {
+    page-break-inside: avoid;
+}

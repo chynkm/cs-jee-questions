@@ -30,6 +30,24 @@ function examTypes() {
 }
 
 /**
+ * Different types of Question types
+ *
+ * @author Karthik M <chynkm@gmail.com>
+ *
+ * @return array
+ */
+function questionTypes($key = false) {
+    $questionTypes = array(
+        1 => 'Single answer',
+        2 => 'More than one answer',
+        3 => 'Comprehension',
+        4 => 'Matrix matching',
+        5 => 'Integer'
+    );
+    return $key === false ? $questionTypes : $questionTypes[$key];
+}
+
+/**
  * Complexities of Questions
  *
  * @author Karthik M <chynkm@gmail.com>

@@ -7,10 +7,8 @@ function displayHtml($content) {
     return html_entity_decode(nl2br($content));
 }
 
-define('WKHTMLTOPDF', '/usr/local/bin/wkhtmltopdf.sh');
-
 $db = new Db();
-$questions = $db->getAllQuestions($_POST['exam_type'], $_POST['complexity'], $_POST['subject']);
+$questions = $db->getAllQuestions($_POST['exam_type'], $_POST['complexity'], $_POST['subject'], $_POST['type_of_question']);
 
 unlink('questions.html');
 unlink('questions.pdf');

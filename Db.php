@@ -1,4 +1,5 @@
 <?php
+require_once('config.php');
 
 class Db
 {
@@ -7,7 +8,7 @@ class Db
     public function __construct()
     {
         // Create connection
-        $conn = new mysqli('localhost', 'root', '', 'jee');
+        $conn = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
         // Check connection
         if ($conn->connect_error) {
             die("MySQL Connection failed: " . $conn->connect_error);
@@ -78,6 +79,7 @@ class Db
             subject_id,
             exam_type,
             complexity,
+            type_of_question,
             question_type,
             question,
             option_a_type,
@@ -92,13 +94,14 @@ class Db
             comments,
             created_at,
             updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $statement = $this->conn->prepare($sql);
-        $statement->bind_param('iissssssssssssssss',
+        $statement->bind_param('iississssssssssssss',
             intval($_SESSION['userId']),
             $post['subject_id'],
             $post['exam_type'],
             $post['complexity'],
+            $post['type_of_question'],
             $post['question_type'],
             $post['question'],
             $post['option_a_type'],
@@ -265,10 +268,11 @@ class Db
      * @param  int|string $examType
      * @param  int|string $complexity
      * @param  int|string $subject
+     * @param  int|string $typeOfQuestion
      *
      * @return object|array
      */
-    public function getAllQuestions($examType, $complexity, $subject)
+    public function getAllQuestions($examType, $complexity, $subject, $typeOfQuestion)
     {
         $sql = "SELECT * FROM questions q join subjects s on s.id = q.subject_id where deleted = 0";
         if($examType != 'all') {
@@ -280,6 +284,10 @@ class Db
         if($subject != 'all') {
             $sql .= " and subject_id = '".$subject."'";
         }
+        if($typeOfQuestion != 'all') {
+            $sql .= " and type_of_question = '".$typeOfQuestion."'";
+        }
+        $sql .= " order by created_at desc";
         $result = $this->conn->query($sql);
 
         return $result->num_rows ? $result : array();
@@ -297,20 +305,21 @@ class Db
      */
     public function paginateQuestionsTable($limit, $offset = 0)
     {
-        $query = "SELECT q.id, name, exam_type, complexity, question_type, question, created_at FROM questions q join subjects s on s.id = q.subject_id where deleted = 0 ORDER BY created_at DESC, q.id ASC LIMIT ? OFFSET ?";
+        $query = "SELECT q.id, name, exam_type, complexity, type_of_question, question_type, question, created_at FROM questions q join subjects s on s.id = q.subject_id where deleted = 0 ORDER BY created_at DESC, q.id ASC LIMIT ? OFFSET ?";
         $statement = $this->conn->prepare($query);
         $statement->bind_param('ii', $limit, $offset);
 
         $questions = array();
         if($statement->execute()){
             $statement->store_result();
-            $statement->bind_result($id, $name, $exam_type, $complexity, $question_type, $question, $created_at);
+            $statement->bind_result($id, $name, $exam_type, $complexity, $type_of_question, $question_type, $question, $created_at);
             while ($statement->fetch()) {
                 $questions[] = array(
                     'id' => $id,
                     'name' => $name,
                     'exam_type' => $exam_type,
                     'complexity' => $complexity,
+                    'type_of_question' => $type_of_question,
                     'question' => $question_type == 'text' ? ( strlen(strip_tags(html_entity_decode($question))) > 40 ? substr(strip_tags(html_entity_decode($question)), 0, 40).'...' : strip_tags(html_entity_decode($question))) : 'Image',
                     'created_at' => $created_at,
                 );
