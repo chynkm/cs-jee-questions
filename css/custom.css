@@ -57,3 +57,18 @@ li.disabled {
   content: ' *';
   color: #e32;
 }
+
+.file_upload {
+  margin: 10px 0;
+}
+
+.image_blk {
+  display:inline-block;
+  position:relative;
+}
+
+.delete_image {
+  position:absolute;
+  top:0;
+  right:0;
+}

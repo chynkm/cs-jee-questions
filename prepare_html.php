@@ -8,7 +8,15 @@ function displayHtml($content) {
 }
 
 $db = new Db();
-$questions = $db->getAllQuestions($_POST['exam_type'], $_POST['complexity'], $_POST['subject'], $_POST['type_of_question']);
+$questions = $db->getAllQuestions(
+    $_POST['exam_type'],
+    $_POST['complexity'],
+    $_POST['subject'],
+    $_POST['type_of_question'],
+    $_POST['topic'],
+    $_POST['sub_topic'],
+    $_POST['limit']
+);
 
 unlink('questions.html');
 unlink('questions.pdf');
@@ -35,43 +43,63 @@ if($questions != array()) {
     while($question = $questions->fetch_assoc()) {
     $n++;
 
-    $origQuestion = $question['question_type'] == 'text' ? displayHtml($question['question']) : imageUrl($question['question']);
+    $origQuestion = displayHtml($question['question']);
+    $origQuestionImage = imageUrl($question['question_image']);
 
-    $optionA = $question['option_a_type'] == 'text' ? displayHtml($question['option_a']) : imageUrl($question['option_a']);
-    $optionB = $question['option_b_type'] == 'text' ? displayHtml($question['option_b']) : imageUrl($question['option_b']);
-    $optionC = $question['option_c_type'] == 'text' ? displayHtml($question['option_c']) : imageUrl($question['option_c']);
-    $optionD = $question['option_d_type'] == 'text' ? displayHtml($question['option_d']) : imageUrl($question['option_d']);
+    $optionA = displayHtml($question['option_a']);
+    $optionAImage = imageUrl($question['option_a_image']);
+    $optionB = displayHtml($question['option_b']);
+    $optionBImage = imageUrl($question['option_b_image']);
+    $optionC = displayHtml($question['option_c']);
+    $optionCImage = imageUrl($question['option_c_image']);
+    $optionD = displayHtml($question['option_d']);
+    $optionDImage = imageUrl($question['option_d_image']);
 
     $html = <<<QUES
             <tr>
                 <th scope="row" colspan="4">Question $n</th>
             </tr>
             <tr>
-                <td colspan="4">{$origQuestion}</td>
+                <td colspan="4">
+                    {$origQuestion}
+                    {$origQuestionImage}
+                </td>
             </tr>
             <tr>
                 <th scope="row" colspan="4">A</th>
             </tr>
             <tr>
-                <td colspan="4">{$optionA}</td>
+                <td colspan="4">
+                    {$optionA}
+                    {$optionAImage}
+                </td>
             </tr>
             <tr>
                 <th scope="row" colspan="4">B</th>
             </tr>
             <tr>
-                <td colspan="4">{$optionB}</td>
+                <td colspan="4">
+                    {$optionB}
+                    {$optionBImage}
+                </td>
             </tr>
             <tr>
                 <th scope="row" colspan="4">C</th>
             </tr>
             <tr>
-                <td colspan="4">{$optionC}</td>
+                <td colspan="4">
+                    {$optionC}
+                    {$optionCImage}
+                </td>
             </tr>
             <tr>
                 <th scope="row" colspan="4">D</th>
             </tr>
             <tr>
-                <td colspan="4">{$optionD}</td>
+                <td colspan="4">
+                    {$optionD}
+                    {$optionDImage}
+                </td>
             </tr>
 QUES;
 
@@ -83,6 +111,12 @@ QUES;
                 <td>{$answer}</td>
                 <th scope="row">Complexity:</th>
                 <td>{$complexity}</td>
+            </tr>
+            <tr>
+                <th scope="row">Topic:</th>
+                <td>{$question['topic']}</td>
+                <th scope="row">Sub topic:</th>
+                <td>{$question['sub_topic']}</td>
             </tr>
 QUES;
 

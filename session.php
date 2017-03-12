@@ -15,7 +15,7 @@ if(!isset($_SESSION['loggedIn']) || (isset($_SESSION['loggedIn']) && !$_SESSION[
  * @return string
  */
 function imageUrl($fileName) {
-    return '<img src="/uploads/'.$fileName.'" class="img-rounded img-responsive">';
+    return $fileName ? '<img src="/uploads/'.$fileName.'" class="img-rounded img-responsive">' : null;
 }
 
 /**

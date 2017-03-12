@@ -9,9 +9,10 @@ APP.main = {
 
     init: function () {
         this.errorBlock();
-        this.selectType();
         this.questionRequired();
         this.deleteQuestion();
+        this.deleteImage();
+        this.numOfQuestions();
     },
 
     errorBlock: function () {
@@ -21,36 +22,12 @@ APP.main = {
         }
     },
 
-    selectType: function() {
-        var self = this;
-        $(document).on('click', '.input_type', function(){
-            if($(this).val() == "text") {
-                $(this).parents('.form-group').find('.text_area').removeClass('hidden');
-                self.editors[$(this).parents('.form-group').find('.text_area').attr('id')] = self.createEditor($(this).parents('.form-group').find('.text_area').attr('id'));
-                $(this).parents('.form-group').find('.file_upload').addClass('hidden');
-            } else {
-                self.removeEditor($(this).parents('.form-group').find('.text_area').attr('id'));
-                $(this).parents('.form-group').find('.file_upload').removeClass('hidden');
-                $(this).parents('.form-group').find('.text_area').addClass('hidden');
-            }
-        });
-    },
-
     flashMessage: function(status, message) {
         if(status == "success") {
             $('#success_alert').html(message).removeClass('hidden');
         } else {
             $('#danger_alert').html(message).removeClass('hidden');
         }
-    },
-
-    imageSelect: function(names) {
-        $(function(){
-            var parsedNames = JSON.parse(names);
-            $.each(parsedNames, function( index, value ) {
-                $(":radio[name="+value+"][value=image]").prop("checked", true).trigger("click");
-            });
-        });
     },
 
     questionRequired: function() {
@@ -130,6 +107,27 @@ APP.main = {
                         });
                     }
                 });
+            }
+        });
+    },
+
+    deleteImage: function() {
+        $('.delete_image').click(function() {
+            if(confirm('Do you want to delete the image?')) {
+                $target = $(this).closest('.image_blk');
+                $.get( 'delete_image.php?id=' + $('#question_id').val() + '&column=' + $(this).data('column'), function( data ) {
+                    if(data) {
+                        $target.remove();
+                    }
+                });
+            }
+        });
+    },
+
+    numOfQuestions: function() {
+        $('#num_of_questions').on('keyup, change', function() {
+            if (isNaN($(this).val())) {
+                $(this).val('');
             }
         });
     },

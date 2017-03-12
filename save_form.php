@@ -5,79 +5,69 @@ require_once('Db.php');
 
 $x = extract($_POST);
 
-if($question_radio == 'image') {
-    $question = fileUpload('question_image');
-} else {
-    $question = htmlentities($question);
-}
+$question_image = isset($_FILES['question_image']['name']) ? fileUpload('question_image') : null;
+$answer_a_image = isset($_FILES['answer_a_image']['name']) ? fileUpload('answer_a_image') : null;
+$answer_b_image = isset($_FILES['answer_b_image']['name']) ? fileUpload('answer_b_image') : null;
+$answer_c_image = isset($_FILES['answer_c_image']['name']) ? fileUpload('answer_c_image') : null;
+$answer_d_image = isset($_FILES['answer_d_image']['name']) ? fileUpload('answer_d_image') : null;
+$comments_image = isset($_FILES['comments_image']['name']) ? fileUpload('comments_image') : null;
 
-if($option_a == 'image') {
-    $answer_a = fileUpload('answer_a_image');
-} else {
-    $answer_a = htmlentities($answer_a);
-}
-
-if($option_b == 'image') {
-    $answer_b = fileUpload('answer_b_image');
-}  else {
-    $answer_b = htmlentities($answer_b);
-}
-
-if($option_c == 'image') {
-    $answer_c = fileUpload('answer_c_image');
-}  else {
-    $answer_c = htmlentities($answer_c);
-}
-
-if($option_d == 'image') {
-    $answer_d = fileUpload('answer_d_image');
-}  else {
-    $answer_d = htmlentities($answer_d);
-}
-
-
+$post['question'] = htmlentities($question);
+$post['option_a'] = htmlentities($answer_a);
+$post['option_b'] = htmlentities($answer_b);
+$post['option_c'] = htmlentities($answer_c);
+$post['option_d'] = htmlentities($answer_d);
 $post['subject_id'] = $subject;
 $post['exam_type'] = $exam_type;
 $post['complexity'] = $complexity;
 $post['answer'] = $answer;
 $post['comments'] = $comments;
+$post['comments_image'] = $comments_image;
 $post['type_of_question'] = $type_of_question;
+$post['topic'] = $topic;
+$post['sub_topic'] = $sub_topic;
 
 $db = new Db();
 if(isset($_POST['id'])) {
 
-    $columns = 'subject_id = ?, exam_type = ?, complexity = ?, type_of_question = ?, answer = ?, comments = ?, updated_at = ?';
-    $bindParams = 'ississs';
-    $bindParamValues = array($post['subject_id'], $post['exam_type'], $post['complexity'], $post['type_of_question'], $post['answer'], $post['comments'], date('Y-m-d H:i:s'));
+    $columns = 'subject_id = ?, exam_type = ?, complexity = ?, type_of_question = ?, answer = ?, comments = ?, question = ?, option_a = ?, option_b = ?, option_c = ?, option_d = ?, topic = ?, sub_topic = ?, updated_at = ?';
+    $bindParams = 'ississsssssiis';
+    $bindParamValues = array($post['subject_id'], $post['exam_type'], $post['complexity'], $post['type_of_question'], $post['answer'], $post['comments'], $post['question'], $post['option_a'], $post['option_b'], $post['option_c'], $post['option_d'], $post['topic'], $post['sub_topic'], date('Y-m-d H:i:s'));
 
-    if($question) {
-        $columns .= ', question_type = ?, question = ?';
-        $bindParams .= 'ss';
-        array_push($bindParamValues, $question_radio, $question);
+    if($question_image) {
+        $columns .= ', question_image = ?';
+        $bindParams .= 's';
+        array_push($bindParamValues, $question_image);
     }
 
-    if($answer_a) {
-        $columns .= ', option_a_type = ?, option_a = ?';
-        $bindParams .= 'ss';
-        array_push($bindParamValues, $option_a, $answer_a);
+    if($answer_a_image) {
+        $columns .= ', option_a_image = ?';
+        $bindParams .= 's';
+        array_push($bindParamValues, $answer_a_image);
     }
 
-    if($answer_b) {
-        $columns .= ', option_b_type = ?, option_b = ?';
-        $bindParams .= 'ss';
-        array_push($bindParamValues, $option_b, $answer_b);
+    if($answer_b_image) {
+        $columns .= ', option_b_image = ?';
+        $bindParams .= 's';
+        array_push($bindParamValues, $answer_b_image);
     }
 
-    if($answer_c) {
-        $columns .= ', option_c_type = ?, option_c = ?';
-        $bindParams .= 'ss';
-        array_push($bindParamValues, $option_c, $answer_c);
+    if($answer_c_image) {
+        $columns .= ', option_c_image = ?';
+        $bindParams .= 's';
+        array_push($bindParamValues, $answer_c_image);
     }
 
-    if($answer_d) {
-        $columns .= ', option_d_type = ?, option_d = ?';
-        $bindParams .= 'ss';
-        array_push($bindParamValues, $option_d, $answer_d);
+    if($answer_d_image) {
+        $columns .= ', option_d_image = ?';
+        $bindParams .= 's';
+        array_push($bindParamValues, $answer_d_image);
+    }
+
+    if($comments_image) {
+        $columns .= ', comments_image = ?';
+        $bindParams .= 's';
+        array_push($bindParamValues, $comments_image);
     }
 
     $bindParams .= 'i';
@@ -86,16 +76,11 @@ if(isset($_POST['id'])) {
     $result = $db->updateQuestion($columns, $bindParams, $bindParamValues);
 } else {
 
-    $post['question_type'] = $question_radio;
-    $post['question'] = $question;
-    $post['option_a_type'] = $option_a;
-    $post['option_a'] = $answer_a;
-    $post['option_b_type'] = $option_b;
-    $post['option_b'] = $answer_b;
-    $post['option_c_type'] = $option_c;
-    $post['option_c'] = $answer_c;
-    $post['option_d_type'] = $option_d;
-    $post['option_d'] = $answer_d;
+    $post['question_image'] = $question_image;
+    $post['option_a_image'] = $answer_a_image;
+    $post['option_b_image'] = $answer_b_image;
+    $post['option_c_image'] = $answer_c_image;
+    $post['option_d_image'] = $answer_d_image;
 
     $result = $db->insertQuestion($post);
 }

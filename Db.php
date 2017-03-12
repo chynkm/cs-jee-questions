@@ -80,40 +80,46 @@ class Db
             exam_type,
             complexity,
             type_of_question,
-            question_type,
+            topic,
+            sub_topic,
             question,
-            option_a_type,
+            question_image,
             option_a,
-            option_b_type,
+            option_a_image,
             option_b,
-            option_c_type,
+            option_b_image,
             option_c,
-            option_d_type,
+            option_c_image,
             option_d,
+            option_d_image,
             answer,
             comments,
+            comments_image,
             created_at,
             updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $statement = $this->conn->prepare($sql);
-        $statement->bind_param('iississssssssssssss',
+        $statement->bind_param('iissiiisssssssssssssss',
             intval($_SESSION['userId']),
             $post['subject_id'],
             $post['exam_type'],
             $post['complexity'],
             $post['type_of_question'],
-            $post['question_type'],
+            $post['topic'],
+            $post['sub_topic'],
             $post['question'],
-            $post['option_a_type'],
+            $post['question_image'],
             $post['option_a'],
-            $post['option_b_type'],
+            $post['option_a_image'],
             $post['option_b'],
-            $post['option_c_type'],
+            $post['option_b_image'],
             $post['option_c'],
-            $post['option_d_type'],
+            $post['option_c_image'],
             $post['option_d'],
+            $post['option_d_image'],
             $post['answer'],
             $post['comments'],
+            $post['comments_image'],
             date('Y-m-d H:i:s'),
             date('Y-m-d H:i:s')
         );
@@ -269,10 +275,13 @@ class Db
      * @param  int|string $complexity
      * @param  int|string $subject
      * @param  int|string $typeOfQuestion
+     * @param  int|string $topic
+     * @param  int|string $subTopic
+     * @param  int|null $limit
      *
      * @return object|array
      */
-    public function getAllQuestions($examType, $complexity, $subject, $typeOfQuestion)
+    public function getAllQuestions($examType, $complexity, $subject, $typeOfQuestion, $topic, $subTopic, $limit = null)
     {
         $sql = "SELECT * FROM questions q join subjects s on s.id = q.subject_id where deleted = 0";
         if($examType != 'all') {
@@ -287,7 +296,19 @@ class Db
         if($typeOfQuestion != 'all') {
             $sql .= " and type_of_question = '".$typeOfQuestion."'";
         }
-        $sql .= " order by created_at desc";
+        if($topic != 'all') {
+            $sql .= " and topic = $topic";
+        }
+        if($subTopic != 'all') {
+            $sql .= " and sub_topic = $subTopic";
+        }
+
+        if($limit) {
+            $sql .= " order by RAND() limit $limit ";
+        } else {
+            $sql .= " order by created_at desc";
+        }
+
         $result = $this->conn->query($sql);
 
         return $result->num_rows ? $result : array();
@@ -305,14 +326,14 @@ class Db
      */
     public function paginateQuestionsTable($limit, $offset = 0)
     {
-        $query = "SELECT q.id, name, exam_type, complexity, type_of_question, question_type, question, created_at FROM questions q join subjects s on s.id = q.subject_id where deleted = 0 ORDER BY created_at DESC, q.id ASC LIMIT ? OFFSET ?";
+        $query = "SELECT q.id, name, exam_type, complexity, type_of_question, question, created_at FROM questions q join subjects s on s.id = q.subject_id where deleted = 0 ORDER BY created_at DESC, q.id ASC LIMIT ? OFFSET ?";
         $statement = $this->conn->prepare($query);
         $statement->bind_param('ii', $limit, $offset);
 
         $questions = array();
         if($statement->execute()){
             $statement->store_result();
-            $statement->bind_result($id, $name, $exam_type, $complexity, $type_of_question, $question_type, $question, $created_at);
+            $statement->bind_result($id, $name, $exam_type, $complexity, $type_of_question, $question, $created_at);
             while ($statement->fetch()) {
                 $questions[] = array(
                     'id' => $id,
@@ -320,7 +341,7 @@ class Db
                     'exam_type' => $exam_type,
                     'complexity' => $complexity,
                     'type_of_question' => $type_of_question,
-                    'question' => $question_type == 'text' ? ( strlen(strip_tags(html_entity_decode($question))) > 40 ? substr(strip_tags(html_entity_decode($question)), 0, 40).'...' : strip_tags(html_entity_decode($question))) : 'Image',
+                    'question' => $question ? ( strlen(strip_tags(html_entity_decode($question))) > 40 ? substr(strip_tags(html_entity_decode($question)), 0, 40).'...' : strip_tags(html_entity_decode($question))) : 'Image',
                     'created_at' => $created_at,
                 );
             }
@@ -373,6 +394,30 @@ class Db
     public function deleteQuestion($id)
     {
         $query = "UPDATE questions SET deleted = 1 where id = ?";
+        $statement = $this->conn->prepare($query);
+        $statement->bind_param('i', $id);
+
+        if($statement->execute()) {
+            $statement->close();
+            return true;
+        } else {
+            die("ERROR: Executing the following SQL command failed: $sql. " . mysqli_error($this->conn));
+        }
+    }
+
+    /**
+     * Delete image
+     *
+     * @author Karthik M <chynkm@gmail.com>
+     *
+     * @param  int $id
+     * @param  string $column
+     *
+     * @return boolean
+     */
+    public function deleteImage($id, $column)
+    {
+        $query = "UPDATE questions SET $column = null where id = ?";
         $statement = $this->conn->prepare($query);
         $statement->bind_param('i', $id);
 

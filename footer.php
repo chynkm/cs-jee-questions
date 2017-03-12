@@ -30,7 +30,6 @@ JavaScript;
 }
 
 if($_SERVER['SCRIPT_NAME'] == '/add.php') {
-    include_once('add_footer.php');
 echo <<<JavaScript
     <script src="//cdn.ckeditor.com/4.6.2/standard-all/ckeditor.js"></script>
     <script type="text/javascript">

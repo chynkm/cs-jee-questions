@@ -92,7 +92,33 @@ include_once('header.php');
                         </select>
                     </div>
                 </div>
-                <div class="col-md-12 top20 text-center">
+                <div class="col-md-2 top20">
+                    <div class="form-group">
+                        <label class="required_field">Topic</label>
+                        <select name="topic" class="form-control">
+                        <?php foreach(array('all' => 'All')+range(1,20) as $key => $topic): ?>
+                        <option value="<?php echo $key == 'all' ? $key : $key+1; ?>"><?php echo $topic; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2 top20 text-right">
+                    <div class="form-group">
+                        <label class="required_field">Sub Topic</label>
+                        <select name="sub_topic" class="form-control">
+                        <?php foreach(array('all' => 'All')+range(1,20) as $key => $subTopic): ?>
+                        <option value="<?php echo $key == 'all' ? $key : $key+1; ?>"><?php echo $subTopic; ?></option>
+                        <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4 top20 text-right">
+                    <div class="form-group">
+                        <label class="control-label">Num of Questions</label>
+                        <input type="text" name="limit" placeholder="Num of questions" id="num_of_questions" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4 top20 text-right">
                     <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download PDF</a>
                 </div>
             </form>
