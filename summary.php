@@ -97,7 +97,7 @@ include_once('header.php');
                         <label class="required_field">Topic</label>
                         <select name="topic" class="form-control">
                         <?php foreach(array('all' => 'All')+range(1,20) as $key => $topic): ?>
-                        <option value="<?php echo $key == 'all' ? $key : $key+1; ?>"><?php echo $topic; ?></option>
+                        <option value="<?php echo is_numeric($key) ? $key+1 : $key; ?>"><?php echo $topic; ?></option>
                         <?php endforeach; ?>
                         </select>
                     </div>
@@ -107,7 +107,7 @@ include_once('header.php');
                         <label class="required_field">Sub Topic</label>
                         <select name="sub_topic" class="form-control">
                         <?php foreach(array('all' => 'All')+range(1,20) as $key => $subTopic): ?>
-                        <option value="<?php echo $key == 'all' ? $key : $key+1; ?>"><?php echo $subTopic; ?></option>
+                        <option value="<?php echo is_numeric($key) ? $key+1 : $key; ?>"><?php echo $subTopic; ?></option>
                         <?php endforeach; ?>
                         </select>
                     </div>

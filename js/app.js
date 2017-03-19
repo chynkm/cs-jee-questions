@@ -65,6 +65,9 @@ APP.main = {
             if($('#answer').val() == '') {
                 html += "The <strong>Key</strong> field is required.<br/>";
             }
+            if($('#type_of_question').val() == 1 && ['A', 'B', 'C', 'D'].indexOf($('#answer').val().toUpperCase()) == -1){
+                html += "The <strong>Key</strong> field value should be A, B, C or D.<br/>";
+            }
             if(html != '') {
                 $('#danger_alert').html(html).removeClass('hidden');
                 $('html, body').scrollTop(50);
