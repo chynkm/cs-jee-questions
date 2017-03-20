@@ -25,10 +25,16 @@ CREATE TABLE `questions` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `subject_id` (`subject_id`)
+  KEY `subject_id` (`subject_id`),
+  KEY `exam_type` (`exam_type`),
+  KEY `complexity` (`complexity`),
+  KEY `type_of_question` (`type_of_question`),
+  KEY `topic` (`topic`),
+  KEY `sub_topic` (`sub_topic`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE `subjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -45,6 +51,7 @@ INSERT INTO `subjects` (`id`, `name`) VALUES
 (7, 'Competitive General - Reasoning'),
 (8, 'Competitive General - Mental ability');
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -54,7 +61,4 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `users` (`id`, `username`, `password`, `created_at`) VALUES
-(1, 'admin',    'secret',   '2017-02-04 08:10:04');
-
-ALTER TABLE `questions`
-ADD `type_of_question` tinyint(2) NOT NULL COMMENT '1: Single Answer, 2: More than one answer, 3: Comprehension, 4: Matrix matching, 5: Integer' AFTER `complexity`;
+(1, 'admin',  'secret', '2017-02-04 08:10:04');
