@@ -32,7 +32,7 @@ include_once('header.php');
                         <th>Complexity</th>
                         <th>Type of question</th>
                         <th>Question</th>
-                        <th>Created date</th>
+                        <th>Updated date</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -49,7 +49,7 @@ include_once('header.php');
                         <td><?php echo $question['complexity']; ?></td>
                         <td><?php echo questionTypes($question['type_of_question']); ?></td>
                         <td><?php echo $question['question']; ?></td>
-                        <td><?php echo date('H:i:s d-m-Y', strtotime($question['created_at'])); ?></td>
+                        <td><?php echo date('H:i:s d-m-Y', strtotime($question['updated_at'])); ?></td>
                         <td>
                             <a href="add.php?id=<?php echo $question['id']; ?>" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                             <button data-id="<?php echo $question['id']; ?>" type="button" class="btn btn-danger btn-sm delete_question"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>

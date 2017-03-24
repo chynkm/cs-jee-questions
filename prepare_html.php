@@ -22,12 +22,16 @@ unlink('questions.html');
 unlink('questions.pdf');
 $file = 'questions.html';
 
-$html = <<<QUES
+$html = <<<'QUES'
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
         <link href="css/template.css" rel="stylesheet" type="text/css" media="all">
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+        </script>
+        <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
         <div class="container">
@@ -155,7 +159,7 @@ file_put_contents($file, $html, FILE_APPEND);
 
 $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
 
-exec(WKHTMLTOPDF.' -O landscape '.$protocol.$_SERVER['SERVER_NAME']."/questions.html questions.pdf > /dev/null");
+exec(WKHTMLTOPDF.' --javascript-delay 400 -O landscape '.$protocol.$_SERVER['SERVER_NAME']."/questions.html questions.pdf > /dev/null");
 
 $fileName = 'Questions-'.date('H-i-s-d-m-Y').'.pdf';
 $fileUrl = $protocol.$_SERVER['SERVER_NAME'].'/questions.pdf';

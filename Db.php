@@ -326,14 +326,14 @@ class Db
      */
     public function paginateQuestionsTable($limit, $offset = 0)
     {
-        $query = "SELECT q.id, name, exam_type, complexity, type_of_question, question, created_at FROM questions q join subjects s on s.id = q.subject_id where deleted = 0 ORDER BY created_at DESC, q.id ASC LIMIT ? OFFSET ?";
+        $query = "SELECT q.id, name, exam_type, complexity, type_of_question, question, updated_at FROM questions q join subjects s on s.id = q.subject_id where deleted = 0 ORDER BY updated_at DESC, q.id ASC LIMIT ? OFFSET ?";
         $statement = $this->conn->prepare($query);
         $statement->bind_param('ii', $limit, $offset);
 
         $questions = array();
         if($statement->execute()){
             $statement->store_result();
-            $statement->bind_result($id, $name, $exam_type, $complexity, $type_of_question, $question, $created_at);
+            $statement->bind_result($id, $name, $exam_type, $complexity, $type_of_question, $question, $updated_at);
             while ($statement->fetch()) {
                 $questions[] = array(
                     'id' => $id,
@@ -342,7 +342,7 @@ class Db
                     'complexity' => $complexity,
                     'type_of_question' => $type_of_question,
                     'question' => $question ? ( strlen(strip_tags(html_entity_decode($question))) > 40 ? substr(strip_tags(html_entity_decode($question)), 0, 40).'...' : strip_tags(html_entity_decode($question))) : 'Image',
-                    'created_at' => $created_at,
+                    'updated_at' => $updated_at,
                 );
             }
             $questionCount = $statement->num_rows;
