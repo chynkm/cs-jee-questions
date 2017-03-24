@@ -159,7 +159,7 @@ file_put_contents($file, $html, FILE_APPEND);
 
 $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
 
-exec(WKHTMLTOPDF.' --javascript-delay 400 -O landscape '.$protocol.$_SERVER['SERVER_NAME']."/questions.html questions.pdf > /dev/null");
+exec(WKHTMLTOPDF.' --javascript-delay 1000 -O landscape '.$protocol.$_SERVER['SERVER_NAME']."/questions.html questions.pdf > /dev/null");
 
 $fileName = 'Questions-'.date('H-i-s-d-m-Y').'.pdf';
 $fileUrl = $protocol.$_SERVER['SERVER_NAME'].'/questions.pdf';
