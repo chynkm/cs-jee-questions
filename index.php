@@ -75,11 +75,6 @@ include_once('header.php');
             </ul>
         </nav>
         <?php endif; ?>
-        <!-- <div class="row">
-            <div class="col-md-12 text-right">
-                <a href="prepare_html.php" target="_blank" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download PDF</a>
-            </div>
-        </div> -->
     </div>
 </div>
 <?php include_once('footer.php'); ?>
