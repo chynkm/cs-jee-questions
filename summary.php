@@ -47,6 +47,11 @@ include_once('header.php');
                 </tbody>
             </table>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="backup.php" class="btn btn-success pull-right"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Backup DB and Photos</a>
+            </div>
+        </div>
         <div class="page-header">
             <h1 class="text-center">Download Questions</h1>
         </div>
