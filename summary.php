@@ -1,12 +1,10 @@
 <?php
 require_once('session.php');
 require_once('Db.php');
-
 $db = new Db();
 $total = $db->countAllResults('questions');
 $summary = $db->getSummary();
 $subjects = $db->getSubjectsAsList();
-
 include_once('header.php');
 ?>
 <div class="row">
@@ -46,6 +44,11 @@ include_once('header.php');
                     <?php endforeach; ?>
                 </tbody>
             </table>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <a href="backup.php" class="btn btn-success pull-right"><span class="glyphicon glyphicon-save-file"></span>&nbsp;Backup DB and Photos</a>
+            </div>
         </div>
         <div class="page-header">
             <h1 class="text-center">Download Questions</h1>
@@ -126,3 +129,4 @@ include_once('header.php');
     </div>
 </div>
 <?php include_once('footer.php'); ?>
+
