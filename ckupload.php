@@ -1,4 +1,5 @@
 <?php
+set_time_limit(900);
 
 if (($_FILES['upload'] == "none") || (empty($_FILES['upload']['name'])) ) {
     $message = "No file uploaded.";
@@ -50,5 +51,6 @@ if(isset($_GET['responseType']) && $_GET['responseType'] == 'json') {
     exit;
 }
 
+$funcNum = $_GET['CKEditorFuncNum'];
 echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, '$url', '$message');</script>";
 
