@@ -14,4 +14,3 @@ header('Content-Length: '.filesize($file));
 header('Content-Disposition: attachment; filename='.basename($file));
 readfile($file);
 die;
-

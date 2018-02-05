@@ -1,12 +1,10 @@
 <?php
 require_once('session.php');
 require_once('Db.php');
-
 $db = new Db();
 $total = $db->countAllResults('questions');
 $summary = $db->getSummary();
 $subjects = $db->getSubjectsAsList();
-
 include_once('header.php');
 ?>
 <div class="row">
@@ -59,7 +57,7 @@ include_once('header.php');
             <form class="form-inline" action="prepare_html.php" method="post">
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label class="required_field">Exam type</label>
+                        <label class="required_field">Exam</label>
                         <select name="exam_type" class="form-control" id="exam_type">
                         <?php foreach(array_merge(array('all'), examTypes()) as $exam): ?>
                         <option value="<?php echo $exam; ?>"><?php echo ucfirst($exam); ?></option>
@@ -124,10 +122,11 @@ include_once('header.php');
                     </div>
                 </div>
                 <div class="col-md-4 top20 text-right">
-                    <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download PDF</a>
+                    <button type="submit" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download PDF</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 <?php include_once('footer.php'); ?>
+
